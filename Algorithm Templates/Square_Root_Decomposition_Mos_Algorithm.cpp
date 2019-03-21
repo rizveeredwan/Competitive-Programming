@@ -22,7 +22,7 @@ int sqrtN;
 bool cmp(Query a, Query b){
     //comparison function for MO's algorithm
     if(a.l/sqrtN>b.l/sqrtN) return false;
-    if(a.l/sqrtN>b.l/sqrtN) return true;
+    if(a.l/sqrtN<b.l/sqrtN) return true;
     if(a.l/sqrtN == b.l/sqrtN) {
         if(a.r < b.r) return true;
         return false;
