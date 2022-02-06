@@ -20,5 +20,5 @@ def binary_search(array, sr):
 
 
 array = [ 1, 5, 7, 10, 17, 29, 35, 47, 49, 51, 53, 107, 125, 137]
-sr=108
+sr=140
 print(binary_search(array, sr))
