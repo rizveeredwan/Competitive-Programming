@@ -53,7 +53,7 @@ template <typename T> int _partition(T arr, int st, int en){
     if ((i+1) < en) {
         i=i+1;
         swap(arr[i], arr[en]);
-        pivot_idx = i+1;
+        pivot_idx = i;
     }
     return pivot_idx;
 }
@@ -70,15 +70,11 @@ template <typename T> void quick_sort(T arr, int n, int st, int en) {
         return;
     }
     int pivot_idx = _partition(arr, st, en);
+    printf("pivots %d\n", pivot_idx);
     print_array(arr, n);
     int gap = en-st;
     if (gap == 0) {
-        return;template<typename T> void print_array(T arr[], int n) {
-    for(int i=0; i < n; i++) {
-        cout << arr[i] << " ";
-    }
-    cout << endl;
-}
+        return;
     }
     if (gap == 1) {
         if (arr[st] > arr[en]) {
@@ -103,8 +99,10 @@ template <typename T> void quick_sort(T arr, int n, int st, int en) {
 
 
 int main(void){
-    int arr[6] = {7, 1, 2, -7, 17, 10};
+    //int arr[6] = {7, 1, 2, -7, 17, 10};
+    int arr[] = {5, 25, 29, 5 , 5, 5, -1, 10, 18, 427, 36};
     int n = sizeof(arr)/sizeof(arr[0]); //length calculation
     cout<<n<<endl;
     quick_sort(arr, n, 0, n-1);
+    print_array(arr, n);
 }
