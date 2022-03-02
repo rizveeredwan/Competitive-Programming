@@ -9,7 +9,6 @@ struct HuffmanNode {
     HuffmanNode* right=NULL;
 };
 
-// https://www.geeksforgeeks.org/stl-priority-queue-for-structure-or-class/
 // this is an structure which implements the
 // operator overloading
 struct CompareNodes {
