@@ -129,7 +129,7 @@ int main(void) {
     cout<< root << endl;
     map<char, string> M;
     extract_encoding(root, "", M);
-    //print_encoding(M);
+    print_encoding(M);
     string encoded_string = encode_huffman("abcaa", M);
     cout<<encoded_string<<endl;
     string dec_input;
