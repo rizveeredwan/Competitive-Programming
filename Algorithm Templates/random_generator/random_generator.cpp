@@ -1,7 +1,14 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define MAX 100
+
+
+// function definition
+template<typename T> void print_grid(T grid[MAX+1][MAX+1], int row, int col);
+
 void string_generator(int n){
+    // generation of random string
     srand(time(0));
     char ch;
     vector<char>V;
@@ -23,7 +30,6 @@ void string_generator(int n){
 }
 
 vector<int> input_generation(int n, int min_value, int max_value) {
-    srand(time(0));
     map<int,bool>M;
     vector<int>V;
     int value;
@@ -39,7 +45,34 @@ vector<int> input_generation(int n, int min_value, int max_value) {
     return V;
 }
 
+void grid_generator(int row, int col, int min_range, int max_range){
+    srand(time(0));
+    int value;
+    int grid[MAX+1][MAX+1];
+    int gap = max_range-min_range;
+    for(int i=0; i<row; i++){
+        for(int j=0; j<col; j++){
+            value = rand()%gap+min_range;
+            grid[i][j] = value;
+        }
+    }
+    print_grid(grid, row, col);
+    return;
+}
+
+template<typename T> void print_grid(T grid[MAX+1][MAX+1], int row, int col) {
+    // printing grid
+    cout<<row<<" "<<col<<endl;;
+    for(int i=0; i<row; i++){
+        for(int j=0; j<col; j++){
+            cout<<grid[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+}
+
 template<typename T> void print_vector(vector<T>V){
+    // printing any sort of vector
     for(int i=0; i<V.size(); i++){
         cout<<V[i]<<" ";
     }
@@ -48,7 +81,8 @@ template<typename T> void print_vector(vector<T>V){
 
 
 int main(void){
-    //string_generator(12);
-    vector<int> V = input_generation(10, 1, 70);
-    print_vector(V);
+    //string_generator(27);
+    //vector<int> V = input_generation(10, 1, 70);
+    //print_vector(V);
+    grid_generator(3, 4, 1, 5);
 }
