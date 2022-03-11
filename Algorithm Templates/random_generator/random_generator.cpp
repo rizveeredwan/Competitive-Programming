@@ -6,6 +6,8 @@ using namespace std;
 
 // function definition
 template<typename T> void print_grid(T grid[MAX+1][MAX+1], int row, int col);
+template<typename T> void print_vector(vector<T>V);
+
 
 void string_generator(int n){
     // generation of random string
@@ -30,18 +32,21 @@ void string_generator(int n){
 }
 
 vector<int> input_generation(int n, int min_value, int max_value) {
+    // integer number generation
+    srand(time(0));
     map<int,bool>M;
     vector<int>V;
     int value;
     auto it = M.begin();
     while (V.size() < n) {
         value = rand()%max_value+min_value;
-        V.push_back(value);
-        /*if (M.find(value) == M.end()) {
+        //V.push_back(value);
+        if (M.find(value) == M.end()) {
             M[value]=true;
             V.push_back(value);
-        }*/
+        }
     }
+    print_vector(V);
     return V;
 }
 
@@ -82,7 +87,6 @@ template<typename T> void print_vector(vector<T>V){
 
 int main(void){
     //string_generator(27);
-    //vector<int> V = input_generation(10, 1, 70);
-    //print_vector(V);
-    grid_generator(3, 4, 1, 5);
+    vector<int> V = input_generation(15, 1, 70);
+    //grid_generator(3, 4, 1, 5);
 }
