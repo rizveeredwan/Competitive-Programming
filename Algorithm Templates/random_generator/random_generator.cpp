@@ -84,7 +84,6 @@ template<typename T> void print_vector(vector<T>V){
     cout<<endl;
 }
 
-
 int main(void){
     //string_generator(27);
     vector<int> V = input_generation(15, 1, 70);

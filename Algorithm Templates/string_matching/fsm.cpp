@@ -84,11 +84,23 @@ void search_in_text(string t, map<int,map<char,int>>delta, int final_state){
     return;
 }
 
+void print_delta(map<int,map<char,int>> delta){
+    cout<<"printing delta"<<endl;
+    for(auto it=delta.begin(); it != delta.end(); it++){
+        //cout<<"state "<<it->first<<endl;
+        for(auto it2=it->second.begin(); it2 != it->second.end(); it2++){
+            cout<<it2->second<<" ";
+        }
+        cout<<endl;
+    }
+}
+
 int main(void){
     freopen("in.txt", "r", stdin);
     string t,p;
     cin>>t>>p;
     map<int,map<char,int>>delta = calculate_transition_function(p,t);
+    print_delta(delta);
     search_in_text(t, delta, p.size());
     return 0;
 }
