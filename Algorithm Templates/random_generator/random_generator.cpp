@@ -11,7 +11,7 @@ template<typename T> void print_vector(vector<T>V);
 
 void string_generator(int n){
     // generation of random string
-    srand(time(0));
+
     char ch;
     vector<char>V;
     /*for(int i=0;i<32;i++){
@@ -21,7 +21,7 @@ void string_generator(int n){
     V.push_back('A');
     V.push_back('B');
     V.push_back('C');
-    V.push_back('E');
+    V.push_back('D');
     string s= "";
     int idx;
     for(int i=0;i<n;i++){
@@ -29,9 +29,10 @@ void string_generator(int n){
         s = s + V[idx];
     }
     cout<<s<<endl;
+    //cout<<s.size()<<endl;
 }
 
-vector<int> input_generation(int n, int min_value, int max_value) {
+vector<int> integer_generation(int n, int min_value, int max_value) {
     // integer number generation
     srand(time(0));
     map<int,bool>M;
@@ -40,18 +41,17 @@ vector<int> input_generation(int n, int min_value, int max_value) {
     auto it = M.begin();
     while (V.size() < n) {
         value = rand()%max_value+min_value;
-        //V.push_back(value);
-        if (M.find(value) == M.end()) {
+        V.push_back(value);
+        /*if (M.find(value) == M.end()) {
             M[value]=true;
             V.push_back(value);
-        }
+        }*/
     }
     print_vector(V);
     return V;
 }
 
 void grid_generator(int row, int col, int min_range, int max_range){
-    srand(time(0));
     int value;
     int grid[MAX+1][MAX+1];
     int gap = max_range-min_range;
@@ -85,7 +85,10 @@ template<typename T> void print_vector(vector<T>V){
 }
 
 int main(void){
-    //string_generator(27);
-    vector<int> V = input_generation(15, 1, 70);
-    //grid_generator(3, 4, 1, 5);
+    freopen("in.txt", "w", stdout);
+    // it is enough to write in main function once: the seeding
+    srand(time(nullptr));
+    //string_generator(1000);
+    //vector<int> V = integer_generation(500, 1, 300);
+    grid_generator(100, 100, 2, 100);
 }
