@@ -1,11 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define MAX 10000
+/* Base solution BFS*/
 
 struct Graph{
-    vector<int>edges[MAX+1];
-    vector<int>weight[MAX+1];
+    vector<vector<int>>edges;
+    vector<vector<int>>weight;
     int node,edge_count;
     void add_edge_without_weight(int u, int v){
         this->edges[u].push_back(v);
@@ -14,8 +14,18 @@ struct Graph{
         this->add_edge_without_weight(u,v);
         this->weight[u].push_back(w);
     }
+    void init(int node){
+        this->edges.clear();
+        this->weight.clear();
+        vector<int>temp;
+        for(int i=0; i<=node;i++){
+            this->edges.push_back(temp);
+        }
+        return;
+    }
     void input(){
         cin>>this->node>>this->edge_count;
+        this->init(this->node);
         int u,v;
         for(int i=0; i<this->edge_count; i++){
             cin>>u>>v;
@@ -36,9 +46,9 @@ struct Graph{
 };
 
 struct Bfs{
-    int dist[MAX+1];
-    int color[MAX+1];
-    int parent[MAX+1];
+    vector<int>dist;
+    vector<int>color;
+    vector<int>parent;
     int INF = 100000000;
     void algorithm(Graph g, int s, int d){
         this->init(g);
@@ -49,7 +59,7 @@ struct Bfs{
         int u;
         while(q.empty() != true){
             u = q.front();
-            //cout<<"top "<<u<<endl;
+            //cout<<"top "<<u<<" "<<this->dist[u]<<endl;
             q.pop();
             for(int i=0; i<g.edges[u].size(); i++){
                 if(this->color[g.edges[u][i]] == 0) {
@@ -57,6 +67,7 @@ struct Bfs{
                     this->dist[g.edges[u][i]] = this->dist[u] + 1;
                     this->parent[g.edges[u][i]] = u;
                     q.push(g.edges[u][i]);
+                    //cout<<g.edges[u][i]<<" "<<this->dist[g.edges[u][i]] << endl;
                     if(g.edges[u][i] == d) break; // already reached destination
                 }
             }
@@ -65,11 +76,10 @@ struct Bfs{
         this->print(d);
     }
     void init(Graph g){
-        for(int i=1; i<=g.node; i++){
-            this->dist[i] = this->INF;
-            this->color[i] = 0; // white
-            this->parent[i] = -1;  // parent tracking
-        }
+        this->oneD_vector_init(g.node, this->INF, &this->dist); // not reachable
+        this->oneD_vector_init(g.node, 0, &this->color); // white
+        this->oneD_vector_init(g.node, -1, &this->parent); // parent tracking
+        return;
     }
     void print(int d){
         if(this->dist[d] == this->INF) {
@@ -78,6 +88,13 @@ struct Bfs{
         else {
             cout<<this->dist[d]<<endl;
         }
+    }
+    void oneD_vector_init(int n, int value, vector<int> *temp){
+        (*temp).clear();
+         for(int i=0; i<=n; i++){
+            (*temp).push_back(value);
+         }
+         return;
     }
 };
 

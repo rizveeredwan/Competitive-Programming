@@ -1,11 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define MAX 10000
 
 struct Graph{
-    vector<int>edges[MAX+1];
-    vector<int>weight[MAX+1];
+    vector<vector<int>>edges;
+    vector<vector<int>>weight;
     int node,edge_count;
     void add_edge_without_weight(int u, int v){
         this->edges[u].push_back(v);
@@ -14,15 +13,37 @@ struct Graph{
         this->add_edge_without_weight(u,v);
         this->weight[u].push_back(w);
     }
-    void input(){
+    void input(bool undirected, bool unweighted){
         cin>>this->node>>this->edge_count;
-        int u,v;
+        this->init(this->node, unweighted);
+        int u,v,w;
         for(int i=0; i<this->edge_count; i++){
             cin>>u>>v;
-            this->add_edge_without_weight(u,v);
-            this->add_edge_without_weight(v,u);
+            if(unweighted == false) { // weighted graph
+                cin>>w; // taking weight input
+            }
+            if(unweighted == true) {
+                this->add_edge_without_weight(u,v);
+            }
+            else { // weighted graph
+                this->add_edge_with_weight(u,v,w);
+            }
+            if(undirected == true) {
+                if(unweighted==true) this->add_edge_without_weight(v,u);
+                else this->add_edge_with_weight(v,u,w);
+            }
         }
         //this->print_edges();
+    }
+    void init(int node, bool unweighted){
+        this->edges.clear();
+        this->weight.clear();
+        vector<int>temp;
+        for(int i=0; i<=node;i++){
+            this->edges.push_back(temp);
+            if(unweighted == false) this->weight.push_back(temp);
+        }
+        return;
     }
     void print_edges(){
         cout<<this->node<< " " << this->edge_count<<endl;
