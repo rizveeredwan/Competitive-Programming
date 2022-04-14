@@ -214,24 +214,40 @@ struct GraphGenerator{
 
 
 int main(void){
-    freopen("in4.txt", "w", stdout);
+    freopen("in6.txt", "w", stdout);
     srand(time(nullptr));
     GraphGenerator g;
     vector<ComponentTypes>component_types;
     ComponentTypes temp;
 
-    temp.number_of_nodes = 15;
+    /*temp.number_of_nodes = 100;
     temp.type = "tree";
     temp.extra_edge_count = 5;
+    component_types.push_back(temp);*/
+
+    /*temp.number_of_nodes = 12;
+    temp.type = "cycle";
+    temp.extra_edge_count = 4;
+    component_types.push_back(temp);*/
+
+    temp.number_of_nodes = 1000;
+    temp.type = "tree";
+    temp.extra_edge_count = 0;
     component_types.push_back(temp);
 
-    temp.number_of_nodes = 10;
-    temp.type = "cycle";
-    temp.extra_edge_count = 3;
+    temp.number_of_nodes = 1000;
+    temp.type = "tree";
+    temp.extra_edge_count = 0;
+    component_types.push_back(temp);
+
+    temp.number_of_nodes = 500;
+    temp.type = "tree";
+    temp.extra_edge_count = 0;
     component_types.push_back(temp);
 
     vector<int>joining_edges;
-    joining_edges.push_back(2);
+    joining_edges.push_back(1);
+    joining_edges.push_back(1);
 
     g.unweighted_graph_generation(component_types, joining_edges, true);
     return 0;
