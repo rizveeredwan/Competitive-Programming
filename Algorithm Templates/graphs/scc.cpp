@@ -79,7 +79,9 @@ vector<int>color;
     vector<int>discovery;
     vector<int>finish;
     vector<int>order;
+    vector<int>id;
     vector<vector<int>>scc_components;
+    vector<vector<int>>scc_graph;
     int time;
     int INF = 100000000;
     void algorithm(Graph g1, Graph g2){
@@ -102,14 +104,18 @@ vector<int>color;
             }
         }
         this->print_scc_componets();
+        this->construct_scc_graph(g1);
+        this->print_scc_graph();
     }
     void init(Graph g){
         this->oneD_vector_init(g.node, 0, &this->color);
         this->oneD_vector_init(g.node, -1, &this->parent);
         this->oneD_vector_init(g.node, 0, &this->discovery);
         this->oneD_vector_init(g.node, 0, &this->finish);
+        this->oneD_vector_init(g.node, -1, &this->id);
         this->time = 0;
         this->scc_components.clear();
+        this->scc_graph.clear();
         return;
     }
     void recursion_dfs(Graph g, int u, bool component_finding){
@@ -134,6 +140,7 @@ vector<int>color;
         if(component_finding == true){
             // inserting components into SCC
             this->scc_components[this->scc_components.size()-1].push_back(u);
+            this->id[u] = this->scc_components.size()-1;
         }
         return;
     }
@@ -164,7 +171,54 @@ vector<int>color;
             cout<<endl;
         }
     }
+    void construct_scc_graph(Graph g){
+        vector<int>temp;
+        for(int i=0; i<this->scc_components.size(); i++){
+            this->scc_graph.push_back(temp); // 3 components, 3 nodes
+        }
+        set<int>S;
+        for(int i=0; i<this->scc_components.size(); i++){
+            S.clear();
+            for(int j=0; j<this->scc_components[i].size(); j++){
+                for(int k=0; k<g.edges[this->scc_components[i][j]].size(); k++){
+                    if(this->id[this->scc_components[i][j]] != this->id[g.edges[this->scc_components[i][j]][k]]){
+                        // in two scc: components
+                        S.insert(this->id[g.edges[this->scc_components[i][j]][k]]);
+                    }
+                }
+            }
+            for(auto it=S.begin(); it != S.end(); it++){
+                this->scc_graph[i].push_back(*it);
+            }
+        }
+    }
+    void print_scc_graph(){
+        for(int i=0; i<this->scc_components.size();i++){
+            for(int j=0; j<this->scc_graph[i].size(); j++){
+                cout<<i<<" "<<this->scc_graph[i][j]<<endl;
+            }
+        }
+        return;
+    }
 };
+
+/*
+8 14
+1 2
+2 3
+2 5
+2 6
+3 4
+3 7
+4 3
+4 8
+5 1
+5 6
+6 7
+7 6
+7 8
+8 8
+*/
 
 int main(void){
     freopen("in1.txt", "r", stdin);
