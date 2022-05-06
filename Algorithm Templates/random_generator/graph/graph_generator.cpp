@@ -7,10 +7,13 @@ struct ComponentTypes{
     int number_of_nodes;
     string type; // tree/cycle
     int extra_edge_count;
+    pair<int,int>weight_range; // start to end
+    bool negative_cycle = false; // want to make negative cycle or not
 };
 
 struct ConstructedComponents{
     vector<vector<int>>graph;
+    vector<vector<int>>weight;
     int edge;
     int st,en; // component node indexes [1, 10][11-20], etc
 };
@@ -131,7 +134,7 @@ struct GraphGenerator{
         }
         return graph;
     }
-    void unweighted_graph_generation(vector<ComponentTypes>component_types, vector<int>joining_edges, bool undirected){
+    void graph_generation(vector<ComponentTypes>component_types, vector<int>joining_edges, bool undirected, bool unweighted){
         int total_node_count=0;
         int total_edge_count=0;
         vector<ConstructedComponents>const_comps; // constructed components
@@ -230,25 +233,18 @@ int main(void){
     temp.extra_edge_count = 4;
     component_types.push_back(temp);*/
 
-    temp.number_of_nodes = 1000;
-    temp.type = "tree";
-    temp.extra_edge_count = 0;
+    temp.number_of_nodes = 6;
+    temp.type = "cycle";
+    temp.extra_edge_count = 4;
+    temp.weight_range.first = 1;
+    temp.weight_range.second = 10;
     component_types.push_back(temp);
 
-    temp.number_of_nodes = 1000;
-    temp.type = "tree";
-    temp.extra_edge_count = 0;
-    component_types.push_back(temp);
-
-    temp.number_of_nodes = 500;
-    temp.type = "tree";
-    temp.extra_edge_count = 0;
-    component_types.push_back(temp);
 
     vector<int>joining_edges;
-    joining_edges.push_back(1);
-    joining_edges.push_back(1);
+    //joining_edges.push_back(1);
+    //joining_edges.push_back(1);
 
-    g.unweighted_graph_generation(component_types, joining_edges, true);
+    g.graph_generation(component_types, joining_edges, true, false);
     return 0;
 }
