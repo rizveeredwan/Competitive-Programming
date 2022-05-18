@@ -31,9 +31,14 @@ struct BellmanFord{
             visit[u]=1;
             for(int i=0;i<graph[u].size();i++){
                 edgeList.push_back({u,graph[u][i].first,graph[u][i].second});
-                cout<<"edge creating "<<u<<" "<<graph[u][i].first<<" "<<graph[u][i].second<<endl;
+                //cout<<"edge creating "<<u<<" "<<graph[u][i].first<<" "<<graph[u][i].second<<endl;
                 Q.push(graph[u][i].first);
             }
+        }
+	}
+	void print(){
+        for(int i=0;i<this->n;i++){
+            cout<<i<<": "<<dist[i]<<endl;
         }
 	}
 	void Algorithm(){
@@ -66,17 +71,9 @@ struct BellmanFord{
             if(update) {
                 cout<<"Negative Cycle detected"<<endl;
             }
-            else{
-                for(int i=0;i<n;i++){
-                    cout<<i<<": "<<dist[i]<<endl;
-                }
-            }
+            else this->print();
         }
-        else{
-            for(int i=0;i<n;i++){
-                cout<<i<<": "<<dist[i]<<endl;
-            }
-        }
+        else this->print();
         return;
 	}
 };
@@ -105,4 +102,5 @@ int main(void){
     cout<<"Node sorting "<<endl;
     bellmanford.EdgeConstructionWithOrdering(graph,bellmanford.sr,bellmanford.n);
     bellmanford.Algorithm();
+    return 0;
 }
