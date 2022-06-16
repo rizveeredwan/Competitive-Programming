@@ -142,8 +142,26 @@ struct MaxFlow{
     }
 };
 
+/*
+7 13
+1 2 30
+1 5 25
+2 4 7
+2 3 6
+3 2 5
+3 6 14
+3 7 10
+4 3 8
+4 6 5
+5 2 8
+5 4 13
+6 5 12
+6 7 12
+1 7
+*/
+
 int main(void){
-    freopen("in2.txt", "r", stdin);
+    //freopen("in2.txt", "r", stdin);
     Graph g;
     g.input(false,false);
     int source,sink;
