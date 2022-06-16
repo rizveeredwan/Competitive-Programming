@@ -78,8 +78,31 @@ struct BellmanFord{
 	}
 };
 
+/*
+13 17
+1 2 3
+1 7 2
+2 3 -1
+2 7 6
+3 4 7
+4 5 1
+5 2 -2
+5 6 4
+6 12 2
+7 8 1
+8 5 2
+8 6 1
+8 9 5
+9 10 -3
+9 11 3
+10 7 -3
+11 12 3
+1
+*/
+
+
 int main(void){
-    freopen("in.txt","r",stdin);
+    //freopen("in.txt","r",stdin);
     struct BellmanFord bellmanford;
     cout<<"Give total nodes: ";
     cin>>bellmanford.n;

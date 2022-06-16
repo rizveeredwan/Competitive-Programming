@@ -137,6 +137,22 @@ struct MSTPrim {
 7 8 68
 */
 
+/*
+
+7 11
+1 2 10
+1 3 18
+1 4 9
+2 3 12
+2 6 7
+2 7 9
+3 4 6
+3 6 5
+4 5 25
+5 6 20
+6 7 15
+*/
+
 int main(void){
     Graph g;
     g.input(true, false);
