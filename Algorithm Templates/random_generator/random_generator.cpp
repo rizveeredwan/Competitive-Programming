@@ -32,20 +32,24 @@ void string_generator(int n){
     //cout<<s.size()<<endl;
 }
 
-vector<int> integer_generation(int n, int min_value, int max_value) {
+vector<int> integer_generation(int n, int min_value, int max_value, bool repeat) {
     // integer number generation
-    srand(time(0));
+    //srand(time(0));
     map<int,bool>M;
     vector<int>V;
     int value;
     auto it = M.begin();
     while (V.size() < n) {
         value = rand()%max_value+min_value;
-        V.push_back(value);
-        /*if (M.find(value) == M.end()) {
+        if (repeat == true) {
+            V.push_back(value);
+        }
+        else {
+            if (M.find(value) == M.end()) {
             M[value]=true;
             V.push_back(value);
-        }*/
+            }
+        }
     }
     print_vector(V);
     return V;
@@ -90,5 +94,6 @@ int main(void){
     srand(time(nullptr));
     //string_generator(1000);
     //vector<int> V = integer_generation(500, 1, 300);
-    grid_generator(100, 100, 2, 100);
+    //grid_generator(100, 100, 2, 100);
+    integer_generation(100000, -1000000, 1000000, true);
 }
