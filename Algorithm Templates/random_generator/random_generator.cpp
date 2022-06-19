@@ -95,5 +95,5 @@ int main(void){
     //string_generator(1000);
     //vector<int> V = integer_generation(500, 1, 300);
     //grid_generator(100, 100, 2, 100);
-    integer_generation(100000, -1000000, 1000000, true);
+    integer_generation(100000, 100, 4900, true);
 }

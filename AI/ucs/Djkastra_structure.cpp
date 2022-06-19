@@ -84,7 +84,7 @@ struct Dijkstra{
     vector<int>parent;
     priority_queue<DijkstraState, vector<DijkstraState>, CompareNodes >PQ;
     int inf = 100000000;
-    void algorithm(Graph g, int s, int des){
+    int algorithm(Graph g, int s, int des){
         int explored = 0;
         this->init(g);
         this->dist[s]=0;
@@ -94,6 +94,8 @@ struct Dijkstra{
             u = this->PQ.top();
             this->PQ.pop();
             if(u.cost>this->dist[u.node]) continue; // I have already worked with lower cost
+            if(u.node == des) break; // reached destination
+            explored++;
             for(int i=0; i<g.edges[u.node].size(); i++){
                 if(this->dist[g.edges[u.node][i]] > (u.cost + g.weight[u.node][i])){
                     this->dist[g.edges[u.node][i]] = u.cost + g.weight[u.node][i];
@@ -102,6 +104,7 @@ struct Dijkstra{
                 }
             }
         }
+        return explored;
     }
     void insert_in_pq(int node, int cost){
         DijkstraState temp;
@@ -155,14 +158,15 @@ struct Dijkstra{
 */
 
 int main(void){
-    freopen("in1.txt", "r", stdin);
+    freopen("large_in2.txt", "r", stdin);
     Graph g;
     g.input(true, false);
     Dijkstra d;
     int src,des;
     cin>>src>>des;
-    d.algorithm(g,src,des);
+    int explored = d.algorithm(g,src,des);
     cout<<d.dist[des]<<endl;
     d.path_print(src, des);
+    cout<<explored<<endl;
     return 0;
 }

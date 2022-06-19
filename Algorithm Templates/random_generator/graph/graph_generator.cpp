@@ -337,7 +337,7 @@ struct GraphGenerator{
 
 
 int main(void){
-    //freopen("in.txt", "w", stdout);
+    freopen("IN.txt", "w", stdout);
     srand(time(nullptr));
     GraphGenerator g;
     vector<ComponentTypes>component_types;
@@ -353,25 +353,34 @@ int main(void){
     temp.extra_edge_count = 4;
     component_types.push_back(temp);*/
 
-    temp.number_of_nodes = 30;
+    temp.number_of_nodes = 500;
     temp.type = "cycle";
-    temp.extra_edge_count = 10;
-    temp.weight_range.first = 1;
-    temp.weight_range.second = 10;
-    temp.negative_cycle = true;
+    temp.extra_edge_count = 1000;
+    temp.weight_range.first = 10;
+    temp.weight_range.second = 70;
+    temp.negative_cycle = false;
     component_types.push_back(temp);
 
-    temp.number_of_nodes = 40;
+    temp.number_of_nodes = 5000;
     temp.type = "cycle";
-    temp.extra_edge_count = 15;
-    temp.weight_range.first = 1;
-    temp.weight_range.second = 10;
-    temp.negative_cycle = true;
+    temp.extra_edge_count = 700;
+    temp.weight_range.first = 10;
+    temp.weight_range.second = 97;
+    temp.negative_cycle = false;
+    component_types.push_back(temp);
+
+    temp.number_of_nodes = 5000;
+    temp.type = "cycle";
+    temp.extra_edge_count = 800;
+    temp.weight_range.first = 10;
+    temp.weight_range.second = 200;
+    temp.negative_cycle = false;
     component_types.push_back(temp);
 
 
     vector<int>joining_edges;
-    joining_edges.push_back(10);
+    joining_edges.push_back(100);
+    joining_edges.push_back(300);
     //joining_edges.push_back(1);
 
     g.graph_generation(component_types, joining_edges, true, false);
