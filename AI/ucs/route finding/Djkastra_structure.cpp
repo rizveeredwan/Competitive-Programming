@@ -93,7 +93,7 @@ struct Dijkstra{
         while(this->PQ.empty() != true){
             u = this->PQ.top();
             this->PQ.pop();
-            if(u.cost>this->dist[u.node]) continue; // I have already worked with lower cost
+            //if(u.cost>this->dist[u.node]) continue; // I have already worked with lower cost
             if(u.node == des) break; // reached destination
             explored++;
             for(int i=0; i<g.edges[u.node].size(); i++){
@@ -115,6 +115,7 @@ struct Dijkstra{
     }
     void init(Graph g){
         this->dist.clear();
+        this->parent.clear();
         for(int i=0; i<=g.node; i++){
             this->dist.push_back(this->inf);
             this->parent.push_back(-1); // no parent
@@ -158,7 +159,8 @@ struct Dijkstra{
 */
 
 int main(void){
-    freopen("large_in2.txt", "r", stdin);
+    freopen("in3.txt", "r", stdin);
+    freopen("out3.txt", "w", stdout);
     Graph g;
     g.input(true, false);
     Dijkstra d;
