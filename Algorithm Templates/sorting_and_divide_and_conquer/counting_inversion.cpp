@@ -1,10 +1,11 @@
 #include <bits/stdc++.h>
-#define MAX_SIZE 1000000
+#define MAX_SIZE 100000
 using namespace std;
 
 
 template<typename T> int count_inversion(T arr[], T temp[], int st, int en) {
     //T temp[MAX_SIZE+1];
+    cout<<st<<" "<<en<<endl;
     if (st == en) {
         return 0;
     }
@@ -51,6 +52,7 @@ template<typename T> int count_inversion(T arr[], T temp[], int st, int en) {
     for(i=st,k=st; i<=en; i++,k++) {
         arr[i] = temp[k];
     }
+    cout<<"p q r "<<st<<" "<<mid<<" "<<en<< " "<<left<<" "<<right<<" "<<local<<endl;
     return left+right+local;
 }
 

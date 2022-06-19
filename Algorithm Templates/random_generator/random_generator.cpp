@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define MAX 100
+#define MAX 505
 
 
 // function definition
@@ -63,6 +63,7 @@ void grid_generator(int row, int col, int min_range, int max_range){
         for(int j=0; j<col; j++){
             value = rand()%gap+min_range;
             grid[i][j] = value;
+            //cout<<i<< " "<<j<<" "<< value << " value"<<endl;
         }
     }
     print_grid(grid, row, col);
@@ -94,6 +95,6 @@ int main(void){
     srand(time(nullptr));
     //string_generator(1000);
     //vector<int> V = integer_generation(500, 1, 300);
-    //grid_generator(100, 100, 2, 100);
-    integer_generation(100000, 100, 4900, true);
+    grid_generator(500, 500, 2, 50);
+    //integer_generation(100000, 100, 4900, true);
 }
