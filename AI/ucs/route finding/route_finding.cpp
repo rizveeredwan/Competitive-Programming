@@ -101,7 +101,7 @@ struct Dijkstra{
                     this->dist[g.edges[u.node][i]] = u.cost + g.weight[u.node][i];
                     this->insert_in_pq(g.edges[u.node][i],this->dist[g.edges[u.node][i]]);
                     this->parent[g.edges[u.node][i]] = u.node;
-                }
+               }
             }
         }
         return explored;
