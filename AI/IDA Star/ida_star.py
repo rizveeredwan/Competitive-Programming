@@ -39,17 +39,17 @@ class IDA_Star:
 
     def search(self, n, cost, f):
         # print("path ", self.path)
+        if cost + self.heuristic[n] > f:
+            print(self.path, cost + self.heuristic[n])
+            return cost + self.heuristic[n]  # threshold failure
         if n == self.goal:
             print(self.path)
             self.best_result = cost
             return True  # goal reached
-        if cost+self.heuristic[n] > f:
-            print(self.path, cost+self.heuristic[n])
-            return cost+self.heuristic[n]  # threshold failure
         updated_f = self.INF
         found = False
         for v in self.graph[n]:
-            self.path.append(v)
+            self.path.append([v, cost + self.graph[n][v], self.heuristic[v], cost + self.graph[n][v]+self.heuristic[v]])
             found = self.search(v, cost + self.graph[n][v], f)
             if found is True:
                 return True

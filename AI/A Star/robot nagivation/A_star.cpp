@@ -60,13 +60,14 @@ struct Dijkstra{
                 solution = u.g;
                 break; // reached destination
             }
-            cout<<"what "<<u.x<<" "<<u.y<<" "<<u.g<<" "<<u.h<<endl;
+            cout<<"start "<<u.x<<" "<<u.y<<" "<<u.g<<" "<<u.h<<endl;
             explored++;
             for(int i=0; i<4; i++){
                 nx = u.x + dx[i], ny = u.y + dy[i];
                 if(nx >= 0 && nx < r && ny >=0 && ny < c && arr[nx][ny] == 0) {
                     //cout<<"u "<<u.x-1<<" "<<u.y+dx[i]<<endl;
                     if(this->dist[nx][ny] > (u.g + 1)){
+                        cout<<"moves "<<nx<<" "<<ny<<" "<<u.g + 1<<" "<<return_h_value(nx, ny, des_x, des_y)<<endl;
                         this->dist[nx][ny] = u.g+1;
                         this->insert_in_pq(nx,ny,this->dist[nx][ny], return_h_value(nx, ny, des_x, des_y));
                         this->parent[{nx, ny}] = {u.x,u.y};
@@ -132,6 +133,7 @@ struct Dijkstra{
 
 int main(void){
     freopen("in1.txt", "r", stdin);
+    freopen("out1.txt", "w", stdout);
     int r,c, arr[MAX][MAX], src_x, src_y, des_x, des_y;
     input(&r, &c, arr, &src_x, &src_y, &des_x, &des_y);
     Dijkstra d;
