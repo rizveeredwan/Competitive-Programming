@@ -80,7 +80,7 @@ class EightPuzzle:
 
 
 def problem_input():
-    start_state = [[7, 2, 4], [5, 'X', 6], [8, 3, 1]]
+    start_state = [['X', 7, 2], [1, 6, 3], [4, 5, 8]]
     goal_state = [['X', 1, 2], [3, 4, 5], [6, 7, 8]]
     return start_state, goal_state
 
