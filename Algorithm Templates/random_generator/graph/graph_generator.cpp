@@ -139,8 +139,10 @@ struct GraphGenerator{
                 else if(undirected == false &&  this->edge_presence(temp.graph, v, u) == false && this->edge_presence(temp.graph, u, v) == false){
                     edge = edge - 1;
                     temp.graph[u].push_back(v);
-                    w = rand()%(max_value-min_value)+min_value;
-                    temp.weight[u].push_back(w);
+                    if(unweighted == false) {
+                        w = rand()%(max_value-min_value)+min_value;
+                        temp.weight[u].push_back(w);
+                    }
                 }
             }
         }
@@ -165,7 +167,7 @@ struct GraphGenerator{
             }
             else if(component_types[i].type == "cycle"){
                 temp.graph = this->cycle_generation(component_types[i].number_of_nodes, undirected, &temp.edge);
-                 if(unweighted == false) {
+                if(unweighted == false) {
                     if(i==0) global_min = component_types[i].weight_range.first, global_max = component_types[i].weight_range.second;
                     else global_min = min(global_min, component_types[i].weight_range.first), global_max = max(global_max, component_types[i].weight_range.second);
                     temp.weight = this->bulk_weight_generation(component_types[i].number_of_nodes, temp.edge, temp.graph, component_types[i].weight_range.first, component_types[i].weight_range.second, component_types[i].negative_cycle, undirected);
@@ -353,36 +355,36 @@ int main(void){
     temp.extra_edge_count = 4;
     component_types.push_back(temp);*/
 
-    temp.number_of_nodes = 500;
-    temp.type = "cycle";
-    temp.extra_edge_count = 1000;
-    temp.weight_range.first = 10;
-    temp.weight_range.second = 70;
+    temp.number_of_nodes = 30;
+    temp.type = "tree";
+    temp.extra_edge_count = 0;
+    temp.weight_range.first = 2;
+    temp.weight_range.second = 10;
     temp.negative_cycle = false;
     component_types.push_back(temp);
 
-    temp.number_of_nodes = 5000;
-    temp.type = "cycle";
-    temp.extra_edge_count = 700;
+    /*temp.number_of_nodes = 50;
+    temp.type = "tree";
+    temp.extra_edge_count = 0;
     temp.weight_range.first = 10;
     temp.weight_range.second = 97;
     temp.negative_cycle = false;
     component_types.push_back(temp);
 
-    temp.number_of_nodes = 5000;
+    /*temp.number_of_nodes = 5000;
     temp.type = "cycle";
     temp.extra_edge_count = 800;
     temp.weight_range.first = 10;
     temp.weight_range.second = 200;
     temp.negative_cycle = false;
-    component_types.push_back(temp);
+    component_types.push_back(temp);*/
 
 
     vector<int>joining_edges;
-    joining_edges.push_back(100);
-    joining_edges.push_back(300);
+    //joining_edges.push_back(10);
+    //joining_edges.push_back(300);
     //joining_edges.push_back(1);
 
-    g.graph_generation(component_types, joining_edges, true, false);
+    g.graph_generation(component_types, joining_edges, true, true);
     return 0;
 }
