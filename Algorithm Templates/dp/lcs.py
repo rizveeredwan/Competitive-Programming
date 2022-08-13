@@ -70,8 +70,8 @@ class LCS:
                 arr[key1][key2] = self.dp[key1][key2]
         return arr
 
-"""
-lcs = LCS()
-lcs.begin_matching(M="CECCBCCECAACABEAABBCCBCECCBCEECECAE", N="ABEACCBBACCEAEEBCABECAAAAAE")
-lcs.return_path(M="CECCBCCECAACABEAABBCCBCECCBCEECECAE", N="ABEACCBBACCEAEEBCABECAAAAAE")
-"""
+
+if __name__ == '__main__':
+    lcs = LCS()
+    lcs.begin_matching(M="BMCABTCH", N="AMATDHAB")
+    lcs.return_path(M="BMCABTCH", N="AMATDHAB")
