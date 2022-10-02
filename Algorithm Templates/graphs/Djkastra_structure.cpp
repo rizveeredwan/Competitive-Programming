@@ -92,7 +92,7 @@ struct Dijkstra{
         DijkstraState u;
         while(this->PQ.empty() != true){
             u = this->PQ.top();
-            cout<<"node "<<u.node<<" "<<u.cost<<endl;
+            //cout<<"node "<<u.node<<" "<<u.cost<<endl;
             this->PQ.pop();
             if(u.cost>this->dist[u.node]) continue; // I have already worked with lower cost
             for(int i=0; i<g.edges[u.node].size(); i++){
@@ -100,10 +100,17 @@ struct Dijkstra{
                     this->dist[g.edges[u.node][i]] = u.cost + g.weight[u.node][i];
                     this->insert_in_pq(g.edges[u.node][i],this->dist[g.edges[u.node][i]]);
                     this->parent[g.edges[u.node][i]] = u.node;
-                    cout<<" node "<<g.edges[u.node][i]<<" "<<this->dist[g.edges[u.node][i]]<<endl;
+                    //cout<<" node "<<g.edges[u.node][i]<<" "<<this->dist[g.edges[u.node][i]]<<endl;
                 }
             }
         }
+        print_all_distance(g);
+    }
+    void print_all_distance(Graph g){
+        for(int i=1; i<=g.node; i++){
+            cout<<"node "<<i<<" "<<this->dist[i]<<endl;
+        }
+        return;
     }
     void insert_in_pq(int node, int cost){
         DijkstraState temp;
@@ -157,14 +164,15 @@ struct Dijkstra{
 */
 
 int main(void){
-    //freopen("in1.txt", "r", stdin);
+    freopen("in1.txt", "r", stdin);
     Graph g;
-    g.input(true, false);
+    g.input(false, false);
     Dijkstra d;
     int src,des;
-    cin>>src>>des;
+    cin>>src;
+    des = 0;
     d.algorithm(g,src,des);
-    cout<<d.dist[des]<<endl;
-    d.path_print(src, des);
+    //cout<<d.dist[des]<<endl;
+    //d.path_print(src, des);
     return 0;
 }

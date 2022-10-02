@@ -93,6 +93,8 @@ struct FloydWarshall{
                     }
                 }
             }
+            cout<<"k = "<<k<<endl;
+            this->print_table(g);
         }
         this->print_table(g);
     }
@@ -106,9 +108,9 @@ struct FloydWarshall{
         }
         for(int i=1; i<=g.node; i++){
             for(int j=1; j<=g.node; j++){
-                cout<<"calculation for "<<i <<" "<<j << endl;
-                this->print_path(i,j);
-                cout<<endl;
+                //cout<<"calculation for "<<i <<" "<<j << endl;
+                //this->print_path(i,j);
+                //cout<<endl;
             }
         }
         return;
@@ -156,6 +158,7 @@ struct FloydWarshall{
 */
 
 int main(void){
+    freopen("in1.txt", "r", stdin);
     Graph g;
     g.input(false, false);
     FloydWarshall f;

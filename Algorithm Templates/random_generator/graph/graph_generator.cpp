@@ -20,7 +20,63 @@ struct ConstructedComponents{
     int st,en; // component node indexes [1, 10][11-20], etc
 };
 
+int find_set(int u, vector<int> &par){
+    if(u == par[u]) return u;
+    par[u] = find_set(par[u], par);
+    return par[u];
+}
+
+
 struct GraphGenerator{
+    vector<vector<int>> generate_directions(int n, vector<vector<int>>graph){
+        vector<vector<int>>graph2=this->twoD_vector_init(n);
+        queue<int>Q;
+        int node = rand()%n+1;
+        Q.push(node);
+        map<int,bool>visit;
+        visit[node] = true;
+        int u,v;
+        while(!Q.empty()){
+            u = Q.front();
+            Q.pop();
+            for(int i=0; i<graph[u].size(); i++){
+                v = graph[u][i];
+                if(visit.find(v) == visit.end()){
+                    // not yet visited
+                    graph2[u].push_back(v);
+                    Q.push(v);
+                    visit[v] = true;
+                }
+            }
+        }
+        return graph2;
+    }
+    vector<vector<int>> tree_generation_using_dsu(int n, bool undirected, int *edge){
+        vector<vector<int>>graph=this->twoD_vector_init(n);
+        vector<int>par;
+        // setting own parent own
+        for(int i=0; i<=n; i++){
+            par.push_back(i);
+        }
+        *edge = 0;
+        int cnt=0;
+        int u,v, a, b;
+        while(cnt != n-1){
+             u = rand()%n+1;
+             v = rand()%n+1;
+             a = find_set(u, par);
+             b = find_set(v, par);
+             if (a != b){
+                par[a] = par[b];
+                graph[u].push_back(v); // creating graph edge
+                graph[v].push_back(u); // creating reverse edge
+                cnt++;
+                *edge=*edge+1;
+             }
+        }
+        if(undirected == false) graph = this->generate_directions(n, graph);
+        return graph;
+    }
     vector<vector<int>> tree_generation(int n, bool undirected, int *edge) {
         vector<vector<int>>graph=this->twoD_vector_init(n);
         vector<bool>flag = this->oneD_vector_init(n);
@@ -157,7 +213,8 @@ struct GraphGenerator{
             ConstructedComponents temp;
             temp.edge = 0;
             if(component_types[i].type == "tree") {
-                temp.graph = this->tree_generation(component_types[i].number_of_nodes, undirected, &temp.edge);
+                // this->tree_generation
+                temp.graph = this->tree_generation_using_dsu(component_types[i].number_of_nodes, undirected, &temp.edge);
                 if(unweighted == false) {
                     if(i==0) global_min = component_types[i].weight_range.first, global_max = component_types[i].weight_range.second;
                     else global_min = min(global_min, component_types[i].weight_range.first), global_max = max(global_max, component_types[i].weight_range.second);
@@ -355,11 +412,11 @@ int main(void){
     temp.extra_edge_count = 4;
     component_types.push_back(temp);*/
 
-    temp.number_of_nodes = 30;
-    temp.type = "tree";
+    temp.number_of_nodes = 1000;
+    temp.type = "tree"; // tree or cycle
     temp.extra_edge_count = 0;
     temp.weight_range.first = 2;
-    temp.weight_range.second = 10;
+    temp.weight_range.second = 15;
     temp.negative_cycle = false;
     component_types.push_back(temp);
 
@@ -384,7 +441,8 @@ int main(void){
     //joining_edges.push_back(10);
     //joining_edges.push_back(300);
     //joining_edges.push_back(1);
-
-    g.graph_generation(component_types, joining_edges, true, true);
+    //
+    // graph_generation(vector<ComponentTypes>component_types, vector<int>joining_edges, bool undirected, bool unweighted)
+    g.graph_generation(component_types, joining_edges, false, true);
     return 0;
 }

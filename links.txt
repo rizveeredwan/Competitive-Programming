@@ -1,0 +1,2 @@
+Markov chain + Gaussian Elimination
+https://codeforces.com/blog/entry/60003

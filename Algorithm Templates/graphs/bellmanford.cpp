@@ -37,7 +37,7 @@ struct BellmanFord{
         }
 	}
 	void print(){
-        for(int i=0;i<this->n;i++){
+        for(int i=0;i<=this->n;i++){
             cout<<i<<": "<<dist[i]<<endl;
         }
 	}
@@ -102,18 +102,18 @@ struct BellmanFord{
 
 
 int main(void){
-    //freopen("in.txt","r",stdin);
+    freopen("in1.txt","r",stdin);
     struct BellmanFord bellmanford;
     cout<<"Give total nodes: ";
     cin>>bellmanford.n;
     cout<<endl;
     cout<<"Number of edges: ";
-    cin>>bellmanford.n;
+    cin>>bellmanford.ed;
     cout<<endl;
     cout<<"edges will be 0 index based "<<endl;
     vector<pair<int,int>>graph[MAX+1];
     int u,v,w;
-    for(int i=0;i<bellmanford.n;i++){
+    for(int i=1;i<=bellmanford.ed;i++){
         cin>>u>>v>>w;
         cout<<u<<v<<w<<endl;
         graph[u].push_back({v,w});

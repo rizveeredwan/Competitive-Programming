@@ -21,7 +21,7 @@ void string_generator(int n){
     V.push_back('A');
     V.push_back('B');
     V.push_back('C');
-    V.push_back('D');
+    //V.push_back('D');
     string s= "";
     int idx;
     for(int i=0;i<n;i++){
@@ -93,8 +93,8 @@ int main(void){
     freopen("in.txt", "w", stdout);
     // it is enough to write in main function once: the seeding
     srand(time(nullptr));
-    //string_generator(1000);
+    string_generator(30);
     //vector<int> V = integer_generation(500, 1, 300);
-    grid_generator(500, 500, 2, 50);
+    //grid_generator(500, 500, 2, 50);
     //integer_generation(100000, 100, 4900, true);
 }

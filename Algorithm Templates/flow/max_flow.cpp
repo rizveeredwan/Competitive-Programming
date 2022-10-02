@@ -64,6 +64,7 @@ struct MaxFlow{
         int ct = 0;
         while(true){
             res = edmond_karp_algorithm(g, source, sink);
+            cout<<"res = "<<res<<endl;
             if(res == 0) break;
             max_flow += res;
         }
@@ -86,11 +87,11 @@ struct MaxFlow{
         int u,v;
         while(Q.empty() != true){
             u = Q.front();
-            //cout<<"u = "<<u<<endl;
+            cout<<"u = "<<u<<endl;
             Q.pop();
             for(int i=0; i<(*g).edges[u].size(); i++){
                  v = (*g).edges[u][i];
-                 //cout<<"u = "<<u<<" v "<<v<<" "<< this->visit[v].first << " "<< (*g).weight[u][i] << endl;
+                 cout<<"u = "<<u<<" v "<<v<<" "<< this->visit[v].first << " "<< (*g).weight[u][i] << endl;
                  if(this->visit[v].first == this->INF && (*g).weight[u][i] > 0){
                     this->visit[v].first = this->visit[u].first + 1;
                     this->visit[v].second = min(this->visit[u].second, (*g).weight[u][i]);
@@ -161,7 +162,7 @@ struct MaxFlow{
 */
 
 int main(void){
-    //freopen("in2.txt", "r", stdin);
+    freopen("in1.txt", "r", stdin);
     Graph g;
     g.input(false,false);
     int source,sink;
