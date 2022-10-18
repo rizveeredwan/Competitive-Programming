@@ -96,6 +96,21 @@ struct Bfs{
          }
          return;
     }
+    void print_path_edges(int des, int src){
+        // to print the edges
+        if(this->dist[des] != this->INF){
+            vector<pair<int,int>>save;
+            int curr = des;
+            while(curr != src){
+                save.push_back({this->parent[curr], curr});
+                curr = this->parent[curr];
+            }
+            for(int i=save.size()-1; i>=0; i--){
+                cout<<save[i].first<<" "<<save[i].second<<endl;
+            }
+            return;
+        }
+    }
 };
 
 int main(void){
