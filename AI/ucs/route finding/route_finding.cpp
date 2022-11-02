@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include "trie.cpp"
 using namespace std;
 
 struct Graph{
@@ -58,58 +59,78 @@ struct Graph{
 };
 
 struct DijkstraState{
-    int node,cost;
-    /*
+    int node,cost, number_of_nodes;
+    Trie *trie_node;
     // Another way of writing
     bool operator < (const DijkstraState &a) const {
         if(cost < a.cost) return false; // need to be in front
+        else if (cost == a.cost) {
+            if(number_of_nodes < a.number_of_nodes) return true; // (3 < 7): True
+            else if(number_of_nodes == a.number_of_nodes) {
+                if(node < a.node) return false;
+                else return true;
+            }
+            return false;
+        }
         else return true;
-    }*/
+    }
 };
 
 // this is an structure which implements the
 // operator overloading
 // this is an structure which implements the
 // operator overloading
-struct CompareNodes {
+/*struct CompareNodes {
     bool operator()(DijkstraState p1, DijkstraState p2)
     {
         // before "p2", for example:
         return p1.cost > p2.cost;
     }
 };
+priority_queue<DijkstraState, vector<DijkstraState>, CompareNodes >PQ;
+*/
 
 struct Dijkstra{
     vector<int>dist;
     vector<int>parent;
-    priority_queue<DijkstraState, vector<DijkstraState>, CompareNodes >PQ;
+    priority_queue<DijkstraState>PQ;
     int inf = 100000000;
-    int algorithm(Graph g, int s, int des){
-        int explored = 0;
+    int explored;
+    Trie *root = nullptr, *ans = nullptr;
+    void algorithm(Graph g, int s, int des){
+        this->explored = 0;
         this->init(g);
         this->dist[s]=0;
-        this->insert_in_pq(s,0);
+        this->root = new Trie();
+        root->node = s;
+        this->ans = nullptr;
+        this->insert_in_pq(s,0,0,root);
         DijkstraState u;
         while(this->PQ.empty() != true){
             u = this->PQ.top();
             this->PQ.pop();
+            //cout<<"node "<<u.node<<" "<<u.cost<<" "<<u.number_of_nodes<<endl;
             //if(u.cost>this->dist[u.node]) continue; // I have already worked with lower cost
-            if(u.node == des) break; // reached destination
+            if(u.node == des) {
+                this->ans = u.trie_node;
+                break; // reached destination
+            }
             explored++;
             for(int i=0; i<g.edges[u.node].size(); i++){
-                if(this->dist[g.edges[u.node][i]] > (u.cost + g.weight[u.node][i])){
+                if (this->dist[g.edges[u.node][i]] > u.cost + g.weight[u.node][i]) {
                     this->dist[g.edges[u.node][i]] = u.cost + g.weight[u.node][i];
-                    this->insert_in_pq(g.edges[u.node][i],this->dist[g.edges[u.node][i]]);
-                    this->parent[g.edges[u.node][i]] = u.node;
-               }
+                    Trie *trie_node = this->root->create(g.edges[u.node][i], u.trie_node);
+                    this->insert_in_pq(g.edges[u.node][i],u.cost + g.weight[u.node][i], u.number_of_nodes+1, trie_node);
+                }
             }
         }
-        return explored;
     }
-    void insert_in_pq(int node, int cost){
+    void insert_in_pq(int node, int cost, int number_of_nodes, Trie *trie_node){
         DijkstraState temp;
         temp.node=node;
         temp.cost=cost;
+        temp.number_of_nodes=number_of_nodes;
+        temp.trie_node = trie_node;
         this->PQ.push(temp);
         return;
     }
@@ -125,7 +146,6 @@ struct Dijkstra{
         }
     }
     void path_print(int src, int des){
-        vector<int>V;
         if(src == des) {
             cout<<des<<endl;
             return;
@@ -134,12 +154,7 @@ struct Dijkstra{
             cout<<"-1"<<endl;
             return;
         }
-        int curr = des;
-        while(curr != -1){
-            V.push_back(curr);
-            curr = this->parent[curr];
-        }
-        reverse(V.begin(), V.end());
+        vector<int>V = this->root->traverse(this->ans);
         cout<<V.size()<<endl;
         for(int i=0; i<V.size(); i++) {
             cout<<V[i]<<endl;
@@ -159,15 +174,16 @@ struct Dijkstra{
 */
 
 int main(void){
-    freopen("in3.txt", "r", stdin);
-    freopen("out3.txt", "w", stdout);
+    freopen("large_in2.txt", "r", stdin);
+    freopen("large_out2.txt", "w", stdout);
     Graph g;
     g.input(true, false);
     Dijkstra d;
     int src,des;
     cin>>src>>des;
-    int explored = d.algorithm(g,src,des);
+    d.algorithm(g,src,des);
     cout<<d.dist[des]<<endl;
+    int explored = d.explored;
     d.path_print(src, des);
     cout<<explored<<endl;
     return 0;

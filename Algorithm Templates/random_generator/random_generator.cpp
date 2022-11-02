@@ -55,14 +55,20 @@ vector<int> integer_generation(int n, int min_value, int max_value, bool repeat)
     return V;
 }
 
-void grid_generator(int row, int col, int min_range, int max_range){
+void grid_generator(int row, int col, int min_range, int max_range, map<int,bool>canceled){
     int value;
     int grid[MAX+1][MAX+1];
     int gap = max_range-min_range;
     for(int i=0; i<row; i++){
         for(int j=0; j<col; j++){
-            value = rand()%gap+min_range;
-            grid[i][j] = value;
+            while (true){
+                value = rand()%gap+min_range;
+                if(canceled.find(value) == canceled.end()) {
+                    grid[i][j] = value; // not canceled value
+                    break;
+                }
+            }
+
             //cout<<i<< " "<<j<<" "<< value << " value"<<endl;
         }
     }
@@ -89,12 +95,15 @@ template<typename T> void print_vector(vector<T>V){
     cout<<endl;
 }
 
+
 int main(void){
     freopen("in.txt", "w", stdout);
     // it is enough to write in main function once: the seeding
     srand(time(nullptr));
-    string_generator(30);
+    //string_generator(30);
     //vector<int> V = integer_generation(500, 1, 300);
-    //grid_generator(500, 500, 2, 50);
+    map<int, bool>canceled;
+    canceled[0]=true;
+    grid_generator(20, 23, -1, 10, canceled);
     //integer_generation(100000, 100, 4900, true);
 }
