@@ -412,13 +412,13 @@ int main(void){
     temp.extra_edge_count = 4;
     component_types.push_back(temp);*/
 
-    temp.number_of_nodes = 1000;
+    /*temp.number_of_nodes = 1000;
     temp.type = "tree"; // tree or cycle
     temp.extra_edge_count = 0;
     temp.weight_range.first = 2;
     temp.weight_range.second = 15;
     temp.negative_cycle = false;
-    component_types.push_back(temp);
+    component_types.push_back(temp);*/
 
     /*temp.number_of_nodes = 50;
     temp.type = "tree";
@@ -426,15 +426,15 @@ int main(void){
     temp.weight_range.first = 10;
     temp.weight_range.second = 97;
     temp.negative_cycle = false;
-    component_types.push_back(temp);
-
-    /*temp.number_of_nodes = 5000;
-    temp.type = "cycle";
-    temp.extra_edge_count = 800;
-    temp.weight_range.first = 10;
-    temp.weight_range.second = 200;
-    temp.negative_cycle = false;
     component_types.push_back(temp);*/
+
+    temp.number_of_nodes = 10;
+    temp.type = "cycle";
+    temp.extra_edge_count = 5;
+    temp.weight_range.first = 10;
+    temp.weight_range.second = 30;
+    temp.negative_cycle = true;
+    component_types.push_back(temp);
 
 
     vector<int>joining_edges;
@@ -443,6 +443,6 @@ int main(void){
     //joining_edges.push_back(1);
     //
     // graph_generation(vector<ComponentTypes>component_types, vector<int>joining_edges, bool undirected, bool unweighted)
-    g.graph_generation(component_types, joining_edges, false, true);
+    g.graph_generation(component_types, joining_edges, false, false);
     return 0;
 }
