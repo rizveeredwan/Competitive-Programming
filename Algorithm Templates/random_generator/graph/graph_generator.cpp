@@ -17,8 +17,15 @@ struct ConstructedComponents{
     vector<vector<int>>graph;
     vector<vector<int>>weight;
     int edge;
-    int st,en; // component node indexes [1, 10][11-20], etc
+    int st,en; // component node indexes [1, 10][11,20], etc
 };
+
+struct ConnectionBetweenComponents{
+    int component_u;
+    int component_v; // in general case (for directed), u->v edge will be drawn
+    int num_edges;
+};
+
 
 int find_set(int u, vector<int> &par){
     if(u == par[u]) return u;
@@ -204,7 +211,7 @@ struct GraphGenerator{
         }
         return;
     }
-    void graph_generation(vector<ComponentTypes>component_types, vector<int>joining_edges, bool undirected, bool unweighted){
+    void graph_generation(vector<ComponentTypes>component_types, vector<ConnectionBetweenComponents>joining_edges, bool undirected, bool unweighted){
         int total_node_count=0;
         int total_edge_count=0;
         int global_min,global_max;
@@ -243,15 +250,22 @@ struct GraphGenerator{
             //this->print_normal_graph(component_types[i].number_of_nodes, temp.edge, const_comps[i].graph, undirected);
         }
         vector<vector<int>> final_graph, final_weight;
+        map<int,int>node_id_mapping;
         int ptr = 0;
+        // just normal component shifting
         for(int i=0; i<const_comps.size(); i++){
-            ptr = this->merger_graph(&final_graph, &final_weight, const_comps[i].graph, const_comps[i].weight, component_types[i].number_of_nodes, ptr, unweighted);
-            if(i-1>=0) {
-                this->create_edges_between_two_components(&final_graph, &final_weight, undirected, const_comps[i-1].st, const_comps[i-1].en,
-                                                                        const_comps[i].st, const_comps[i].en, joining_edges[i-1], unweighted, global_min, global_max);
-                total_edge_count = total_edge_count + joining_edges[i-1];
-            }
+            ptr = this->merger_graph(&final_graph, &final_weight, const_comps[i].graph, const_comps[i].weight, component_types[i].number_of_nodes, ptr,
+                                     unweighted);
+            //cout<<const_comps[i].st<<" "<<const_comps[i].en<<endl;
         }
+        //cout<<"done "<<ptr<<endl;
+        for(int i=0; i<joining_edges.size(); i++){
+            //cout<<const_comps[joining_edges[i].component_u].st<< " " << const_comps[joining_edges[i].component_u].en << " "<< const_comps[joining_edges[i].component_v].st<< " " << const_comps[joining_edges[i].component_v].en <<endl;
+            this->create_edges_between_two_components(&final_graph, &final_weight, undirected, const_comps[joining_edges[i].component_u].st, const_comps[joining_edges[i].component_u].en,
+                                                                        const_comps[joining_edges[i].component_v].st, const_comps[joining_edges[i].component_v].en, joining_edges[i].num_edges, unweighted, global_min, global_max);
+            total_edge_count = total_edge_count + joining_edges[i].num_edges;
+        }
+
         this->print_normal_graph(total_node_count, total_edge_count, final_graph, final_weight, undirected, unweighted);
     }
     void create_edges_between_two_components(vector<vector<int>> *graph, vector<vector<int>> *weight, int undirected, int st1, int end1, int st2, int end2, int edge_count, bool unweighted, int min_range, int max_range){
@@ -260,9 +274,11 @@ struct GraphGenerator{
         for(int i=1; i<=edge_count; i++){
             while(true){
                 gap = end1-st1;
-                u = rand()%gap+st1;
+                if(gap == 0) u = st1;
+                else u = rand()%gap+st1;
                 gap = end2-st2;
-                v = rand()%gap+st2;
+                if(gap == 0) v = st2;
+                else v = rand()%gap+st2;
                 if(undirected == true && this->edge_presence(*graph, u, v) == false){
                      (*graph)[u].push_back(v);
                      (*graph)[v].push_back(u);
@@ -344,7 +360,6 @@ struct GraphGenerator{
         int diff = max_range-min_range;
         for(int i=0; i<n; i++){
             values.push_back(rand()%diff + min_range);
-            assert(values[i] >= 0);
         }
         sort(values.begin(), values.end());
         if(neg_cycle == true) {
@@ -375,16 +390,25 @@ struct GraphGenerator{
                     else rand()%2==1?sol_idx = split_idx:sol_idx;
                 }
             }
+            bool f = false;
             if(l_sum > r_sum) {
-                for(int i=0; i<split_idx; i++) {
-                    values[i] = values[i] * -1;
+                for(int j=0; j<split_idx; j++) {
+                    values[j] = values[j] * -1;
                 }
+                f = true;
+            }
+            else if(r_sum > l_sum) {
+                for(int j=split_idx+1; j<n; j++){
+                    values[j] = values[j] * -1;
+                }
+                f = true;
             }
             else {
-                for(int i=split_idx+1; i<n; i++){
-                    values[i] = values[i] * -1;
+                for(int j=split_idx+1; j<n; j++){
+                    values[j] = values[j] * -1;
                 }
             }
+            if(f == false) cout<<"negative cycle not created"<<endl;
         }
         // using built-in random generator
         random_shuffle(values.begin(), values.end());
@@ -420,29 +444,50 @@ int main(void){
     temp.negative_cycle = false;
     component_types.push_back(temp);*/
 
-    /*temp.number_of_nodes = 50;
+    temp.number_of_nodes = 1;
     temp.type = "tree";
     temp.extra_edge_count = 0;
     temp.weight_range.first = 10;
-    temp.weight_range.second = 97;
+    temp.weight_range.second = 12;
     temp.negative_cycle = false;
-    component_types.push_back(temp);*/
+    component_types.push_back(temp);
 
-    temp.number_of_nodes = 10;
+    temp.number_of_nodes = 3;
     temp.type = "cycle";
-    temp.extra_edge_count = 5;
-    temp.weight_range.first = 10;
-    temp.weight_range.second = 30;
+    temp.extra_edge_count = 0;
+    temp.weight_range.first = 5;
+    temp.weight_range.second = 15;
     temp.negative_cycle = true;
     component_types.push_back(temp);
 
+    temp.number_of_nodes = 3;
+    temp.type = "cycle";
+    temp.extra_edge_count = 0;
+    temp.weight_range.first = 5;
+    temp.weight_range.second = 15;
+    temp.negative_cycle = false;
+    component_types.push_back(temp);
 
-    vector<int>joining_edges;
-    //joining_edges.push_back(10);
+    temp.number_of_nodes = 1;
+    temp.type = "tree";
+    temp.extra_edge_count = 0;
+    temp.weight_range.first = 10;
+    temp.weight_range.second = 12;
+    temp.negative_cycle = false;
+    component_types.push_back(temp);
+
+
+    vector<ConnectionBetweenComponents>joining_edges;
+    joining_edges.push_back({0,1,1});
+    joining_edges.push_back({0,2,1});
+    joining_edges.push_back({1,3,1});
     //joining_edges.push_back(300);
     //joining_edges.push_back(1);
     //
     // graph_generation(vector<ComponentTypes>component_types, vector<int>joining_edges, bool undirected, bool unweighted)
-    g.graph_generation(component_types, joining_edges, false, false);
+    // undirected, unweighted
+    bool undirected = false;
+    bool unweighted = false;
+    g.graph_generation(component_types, joining_edges, undirected, unweighted);
     return 0;
 }
