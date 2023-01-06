@@ -18,7 +18,7 @@ class LCS:
             if self.path.get(i) is None:
                 self.path[i] = {}
             if self.path.get(i).get(j) is None:
-                self.path[i][j] = 0 # [i+1, j+1]
+                self.path[i][j] = 0  # [i+1, j+1]
         else:
             res2 = self.recursion(i + 1, j, M, N)
             res3 = self.recursion(i, j + 1, M, N)
@@ -27,13 +27,13 @@ class LCS:
                 if self.path.get(i) is None:
                     self.path[i] = {}
                 if self.path.get(i).get(j) is None:
-                    self.path[i][j] = 1 # [i+1, j]
+                    self.path[i][j] = 1  # [i+1, j]
             else:
                 res1 = res3
                 if self.path.get(i) is None:
                     self.path[i] = {}
                 if self.path.get(i).get(j) is None:
-                    self.path[i][j] = 2 # [i, j+1]
+                    self.path[i][j] = 2  # [i, j+1]
         if self.dp.get(i) is None:
             self.dp[i] = {}
         if self.dp[i].get(j) is None:
@@ -45,12 +45,48 @@ class LCS:
         if i >= len(M) or j >= len(N):
             return ""
         if self.path[i][j] == 0:
-            _string = M[i]+self.get_path(i+1, j+1, M, N)
+            _string = M[i] + self.get_path(i + 1, j + 1, M, N)
         elif self.path[i][j] == 1:
             _string = self.get_path(i + 1, j, M, N)
         elif self.path[i][j] == 2:
-            _string = self.get_path(i, j+1, M, N)
+            _string = self.get_path(i, j + 1, M, N)
         return _string
+
+    def key_exist(self, i, j):
+        if self.dp.get(i) is not None and self.dp[i].get(j) is not None:
+            return True
+        return False
+
+    def small_lcs(self, i, j, M, N, best, curr):
+        if i >= len(M) or j >= len(N):
+            print("dhuki ", curr)
+            if len(best) == 0:
+                for i in range(0, len(curr)):
+                    best.append(curr[i])
+            else:
+                for i in range(0, len(best)):
+                    if best[i] > curr[i]:
+                        for j in range(0, len(curr)):
+                            best[j] = curr[j]
+                        break
+            return
+        assert(i < len(M) and j < len(N))
+        if M[i] == N[j]:
+            curr.append(M[i])
+            self.small_lcs(i + 1, j + 1, M, N, best, curr)
+            curr.pop()
+        elif self.key_exist(i,j+1) is True and self.key_exist(i+1,j) is True and self.dp[i][j + 1] > self.dp[i + 1][j]:
+            self.small_lcs(i, j + 1, M, N, best, curr)
+        elif self.key_exist(i,j+1) is True and self.key_exist(i+1,j) is True and self.dp[i][j + 1] < self.dp[i + 1][j]:
+            self.small_lcs(i + 1, j, M, N, best, curr)
+        elif self.key_exist(i,j+1) is True and self.key_exist(i+1,j) is True and self.dp[i][j + 1] == self.dp[i + 1][j]:
+            self.small_lcs(i, j + 1, M, N, best, curr)
+            self.small_lcs(i + 1, j, M, N, best, curr)
+        elif self.key_exist(i,j+1) is False and self.key_exist(i+1,j) is True:
+            self.small_lcs(i + 1, j, M, N, best, curr)
+        elif self.key_exist(i, j + 1) is True and self.key_exist(i + 1, j) is False:
+            self.small_lcs(i, j+1, M, N, best, curr)
+        return
 
     def begin_matching(self, M, N):
         self.clear_memory()
@@ -70,8 +106,18 @@ class LCS:
                 arr[key1][key2] = self.dp[key1][key2]
         return arr
 
+    def print_table(self):
+        for key in self.dp:
+            print(self.dp[key])
+
 
 if __name__ == '__main__':
     lcs = LCS()
-    lcs.begin_matching(M="BMCABTCH", N="AMATDHAB")
-    lcs.return_path(M="BMCABTCH", N="AMATDHAB")
+    M="DAEABFAA"
+    N="ADAEFBAA"
+    lcs.begin_matching(M=M, N=N)
+    lcs.return_path(M=M, N=N)
+    lcs.print_table()
+    best = []
+    lcs.small_lcs(i=0, j=0, M=M, N=N, best=best, curr=[])
+    print("".join(i for i in best))

@@ -43,6 +43,32 @@ void iterative_mcm(vector<pair<int,int>>V, int dp[MAX+1][MAX+1]){
     }
 }
 
+
+void print_mcm(int i, int j, int dp[MAX+1][MAX+1]){
+    if(i == j) {
+        cout<<i<<" ";
+        return;
+    }
+    if((j-i) == 1) {
+        cout<<i<<" "<<j<<" ";
+        return;
+    }
+    int value = 0;
+    int best = -1;
+    for(int k=i+1; k<j; k++){
+        if(dp[i][k] > value) {
+            value = dp[i][k];
+            best = k;
+        }
+    }
+    cout<<"( ";
+    print_mcm(i, best, dp);
+    cout<<" )";
+    cout<<"( ";
+    print_mcm(best+1, j, dp);
+    cout<<" )";
+}
+
 vector<pair<int, int>> input(){
     int n;
     cin>>n;
@@ -66,5 +92,6 @@ int main(void){
     // iterative DP
     iterative_mcm(V, dp);
     cout<<dp[0][V.size()-1]<<endl;
+    print_mcm(0, V.size()-1, dp);
     return 0;
 }
