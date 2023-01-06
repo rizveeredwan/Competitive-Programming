@@ -180,6 +180,7 @@ def get_path_from_dp(i, j, cost, dp, maze, m, n, save, sx, sy, tracked):
     dy = [0, 1, -1, 0]
     if i == sx and j == sy and (cost-maze[i][j]) == 0:
         print(save)
+        print(len(save))
         return
     if tracked.get(i) is None:
         tracked[i] = {}
@@ -211,8 +212,8 @@ def get_path_from_dp(i, j, cost, dp, maze, m, n, save, sx, sy, tracked):
 
 
 def solution():
-    sys.stdin = open("in5.txt", "r")
-    sys.stdout = open("out5.txt", "w")
+    sys.stdin = open("in3.txt", "r")
+    # sys.stdout = open("out3.txt", "w")
     l = input().strip().split(' ')
     m, n = int(l[0]), int(l[1])
     maze = []
@@ -236,14 +237,14 @@ def solution():
     cost = ids_with_rec(m=m, n=n, sx=sx, sy=sy, gx=gx, gy=gy, maze=maze)
     if cost is None:
         print("-1")
-    """
+
     dp = {}
     tracked = {}
-    res = DP(gx, gy, 55, sx, sy, dp, maze, m, n, tracked)
+    res = DP(gx, gy, 141, sx, sy, dp, maze, m, n, tracked)
     if res is True:
         print(res)
-        get_path_from_dp(gx, gy, 55, dp, maze, m, n, [], sx, sy,{})
-    """
+        get_path_from_dp(gx, gy, 141, dp, maze, m, n, [], sx, sy,{})
+
 
 
 if __name__ == '__main__':
