@@ -142,7 +142,13 @@ struct GraphGenerator{
         cout<<node<<" "<<edge<<endl;
         for(int i=1; i<=node; i++){
             for(int j=0; j<graph[i].size(); j++){
-                if((undirected == true && i<graph[i][j]) || undirected == false)  {
+                if(undirected == true) {
+                    if(i<graph[i][j]) {
+                        if(unweighted == true) cout<<i<< " "<<graph[i][j]<<endl;
+                        else cout<<i<< " "<<graph[i][j]<<" "<<weight[i][j]<<endl;
+                    }
+                }
+                else { // directed graph
                     if(unweighted == true) cout<<i<< " "<<graph[i][j]<<endl;
                     else cout<<i<< " "<<graph[i][j]<<" "<<weight[i][j]<<endl;
                 }
@@ -199,7 +205,7 @@ struct GraphGenerator{
                         temp.weight[v].push_back(w);
                     }
                 }
-                else if(undirected == false &&  this->edge_presence(temp.graph, v, u) == false && this->edge_presence(temp.graph, u, v) == false){
+                else if(undirected == false && this->edge_presence(temp.graph, u, v) == false && this->edge_presence(temp.graph, v, u) == false){
                     edge = edge - 1;
                     temp.graph[u].push_back(v);
                     if(unweighted == false) {
@@ -431,9 +437,12 @@ int main(void){
     temp.extra_edge_count = 5;
     component_types.push_back(temp);*/
 
-    /*temp.number_of_nodes = 12;
+    /*temp.number_of_nodes = 3;
     temp.type = "cycle";
-    temp.extra_edge_count = 4;
+    temp.extra_edge_count = 0;
+    temp.weight_range.first = 5;
+    temp.weight_range.second = 15;
+    temp.negative_cycle = true;
     component_types.push_back(temp);*/
 
     /*temp.number_of_nodes = 1000;
@@ -444,43 +453,18 @@ int main(void){
     temp.negative_cycle = false;
     component_types.push_back(temp);*/
 
-    temp.number_of_nodes = 1;
-    temp.type = "tree";
-    temp.extra_edge_count = 0;
-    temp.weight_range.first = 10;
+    temp.number_of_nodes = 5;
+    temp.type = "cycle";
+    temp.extra_edge_count = 4;
+    temp.weight_range.first = 5;
     temp.weight_range.second = 12;
     temp.negative_cycle = false;
     component_types.push_back(temp);
 
-    temp.number_of_nodes = 3;
-    temp.type = "cycle";
-    temp.extra_edge_count = 0;
-    temp.weight_range.first = 5;
-    temp.weight_range.second = 15;
-    temp.negative_cycle = true;
-    component_types.push_back(temp);
-
-    temp.number_of_nodes = 3;
-    temp.type = "cycle";
-    temp.extra_edge_count = 0;
-    temp.weight_range.first = 5;
-    temp.weight_range.second = 15;
-    temp.negative_cycle = false;
-    component_types.push_back(temp);
-
-    temp.number_of_nodes = 1;
-    temp.type = "tree";
-    temp.extra_edge_count = 0;
-    temp.weight_range.first = 10;
-    temp.weight_range.second = 12;
-    temp.negative_cycle = false;
-    component_types.push_back(temp);
 
 
     vector<ConnectionBetweenComponents>joining_edges;
-    joining_edges.push_back({0,1,1});
-    joining_edges.push_back({0,2,1});
-    joining_edges.push_back({1,3,1});
+    //joining_edges.push_back({0,1,1});
     //joining_edges.push_back(300);
     //joining_edges.push_back(1);
     //
