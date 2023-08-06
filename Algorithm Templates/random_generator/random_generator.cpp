@@ -55,7 +55,7 @@ vector<int> integer_generation(int n, int min_value, int max_value, bool repeat)
     return V;
 }
 
-void grid_generator(int row, int col, int min_range, int max_range, map<int,bool>canceled){
+void grid_generator(int row, int col, int min_range, int max_range, map<int,bool>canceled, bool repeat_allow){
     int value;
     int grid[MAX+1][MAX+1];
     int gap = max_range-min_range;
@@ -65,10 +65,13 @@ void grid_generator(int row, int col, int min_range, int max_range, map<int,bool
                 value = rand()%gap+min_range;
                 if(canceled.find(value) == canceled.end()) {
                     grid[i][j] = value; // not canceled value
+                    if(repeat_allow) {}
+                    else { // no repeatition allowed
+                        canceled[value] = true; // to cancel repeating value
+                    }
                     break;
                 }
             }
-
             //cout<<i<< " "<<j<<" "<< value << " value"<<endl;
         }
     }
@@ -104,6 +107,6 @@ int main(void){
     //vector<int> V = integer_generation(500, 1, 300);
     map<int, bool>canceled;
     canceled[0]=true;
-    grid_generator(20, 23, -1, 10, canceled);
+    grid_generator(12, 12, 0, 100, canceled, true);
     //integer_generation(100000, 100, 4900, true);
 }
