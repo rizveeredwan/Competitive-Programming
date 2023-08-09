@@ -3,6 +3,8 @@ using namespace std;
 
 #define MAX 505
 
+typedef long long int ll;
+
 
 // function definition
 template<typename T> void print_grid(T grid[MAX+1][MAX+1], int row, int col);
@@ -32,12 +34,12 @@ void string_generator(int n){
     //cout<<s.size()<<endl;
 }
 
-vector<int> integer_generation(int n, int min_value, int max_value, bool repeat) {
+vector<ll> integer_generation(int n, ll min_value, ll max_value, bool repeat) {
     // integer number generation
     //srand(time(0));
-    map<int,bool>M;
-    vector<int>V;
-    int value;
+    map<ll,bool>M;
+    vector<ll>V;
+    ll value;
     auto it = M.begin();
     while (V.size() < n) {
         value = rand()%max_value+min_value;
@@ -104,9 +106,9 @@ int main(void){
     // it is enough to write in main function once: the seeding
     srand(time(nullptr));
     //string_generator(30);
-    //vector<int> V = integer_generation(500, 1, 300);
+    vector<ll> V = integer_generation(1, 1000000000000000, 100000000000000000, true);
     map<int, bool>canceled;
     canceled[0]=true;
-    grid_generator(12, 12, 0, 100, canceled, true);
+    //grid_generator(12, 12, 0, 100, canceled, true);
     //integer_generation(100000, 100, 4900, true);
 }
