@@ -44,7 +44,7 @@ struct Dijkstra{
 
 int main(void){
 
-    freopen("in.txt","r",stdin);
+    freopen("in1.txt","r",stdin);
 
     Dijkstra d;
     cin>>d.edge;

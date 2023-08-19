@@ -81,6 +81,7 @@ struct CompareNodes {
 
 struct Dijkstra{
     vector<int>dist;
+    vector<int>cnt_dist;
     vector<int>parent;
     priority_queue<DijkstraState, vector<DijkstraState>, CompareNodes >PQ;
     int inf = 100000000;
@@ -100,7 +101,12 @@ struct Dijkstra{
                     this->dist[g.edges[u.node][i]] = u.cost + g.weight[u.node][i];
                     this->insert_in_pq(g.edges[u.node][i],this->dist[g.edges[u.node][i]]);
                     this->parent[g.edges[u.node][i]] = u.node;
+                    this->cnt_dist[g.edges[u.node][i]] = 1;
                     //cout<<" node "<<g.edges[u.node][i]<<" "<<this->dist[g.edges[u.node][i]]<<endl;
+                }
+                else if(this->dist[g.edges[u.node][i]] == (u.cost + g.weight[u.node][i])){
+                    this->insert_in_pq(g.edges[u.node][i],this->dist[g.edges[u.node][i]]);
+                    this->cnt_dist[g.edges[u.node][i]] += 1;
                 }
             }
         }
@@ -108,7 +114,7 @@ struct Dijkstra{
     }
     void print_all_distance(Graph g){
         for(int i=1; i<=g.node; i++){
-            cout<<"node "<<i<<" "<<this->dist[i]<<endl;
+            cout<<"node "<<i<<" "<<this->dist[i]<<" "<<this->cnt_dist[i]<<endl;
         }
         return;
     }
@@ -124,6 +130,7 @@ struct Dijkstra{
         for(int i=0; i<=g.node; i++){
             this->dist.push_back(this->inf);
             this->parent.push_back(-1); // no parent
+            this->cnt_dist.push_back(0);
         }
         while(this->PQ.empty() != true){
             this->PQ.pop();
@@ -170,7 +177,7 @@ int main(void){
     Dijkstra d;
     int src,des;
     cin>>src;
-    des = 0;
+    des = 5;
     d.algorithm(g,src,des);
     //cout<<d.dist[des]<<endl;
     //d.path_print(src, des);

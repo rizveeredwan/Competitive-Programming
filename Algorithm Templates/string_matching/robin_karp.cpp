@@ -75,12 +75,12 @@ pair<string,string> input(){
 }
 
 int main(void){
-    freopen("in.txt", "r", stdin);
+    //freopen("in.txt", "r", stdin);
     pair<string,string> p = input();
     string T = p.first;
     string P = p.second;
-    ll base = 2;
-    ll M = 17;
+    ll base = 26;
+    ll M = 1000000000+7;
     robin_karp(P, T, base, M);
     return 0;
 }

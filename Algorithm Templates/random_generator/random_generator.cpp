@@ -104,6 +104,6 @@ int main(void){
     //vector<int> V = integer_generation(500, 1, 300);
     map<int, bool>canceled;
     canceled[0]=true;
-    grid_generator(20, 23, -1, 10, canceled);
+    grid_generator(4, 4, 1, 7, canceled);
     //integer_generation(100000, 100, 4900, true);
 }

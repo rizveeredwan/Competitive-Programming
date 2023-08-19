@@ -154,6 +154,7 @@ struct MSTPrim {
 */
 
 int main(void){
+    freopen("in1.txt", "r", stdin);
     Graph g;
     g.input(true, false);
     MSTPrim m;

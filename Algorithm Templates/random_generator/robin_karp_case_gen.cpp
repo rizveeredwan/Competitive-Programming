@@ -78,5 +78,5 @@ void case_gen(int patt_len, int base, int M){
 
 
 int main(void){
-    case_gen(3,2,5);
+    case_gen(3,2,11);
 }

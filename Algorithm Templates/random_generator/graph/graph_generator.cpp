@@ -33,6 +33,25 @@ int find_set(int u, vector<int> &par){
     return par[u];
 }
 
+bool dfs(int node, vector<vector<int>>graph, vector<int>&color, int u, int v){
+    color[node] = 1;
+    bool verdict = false;
+    for(int i=0; i<graph[node].size(); i++){
+        if(color[graph[node][i]] == 0){
+            verdict = dfs(graph[node][i], graph, color, u, v);
+            if(verdict == true) return verdict;
+        }
+        else if(color[graph[node][i]] == 1){// Grey to Grey
+            return true;
+        }
+    }
+    if(u == node) {
+        if(color[v] == 1) return true; // cycle found
+        else if(color[v] == 0) dfs(v, graph, color, u, v);
+    }
+    color[node] = 2;
+    return false;
+}
 
 struct GraphGenerator{
     vector<vector<int>> generate_directions(int n, vector<vector<int>>graph){
@@ -83,6 +102,34 @@ struct GraphGenerator{
         }
         if(undirected == false) graph = this->generate_directions(n, graph);
         return graph;
+    }
+    void cycle_aware_directed_edge_addition(int n, bool undirected, int edge, ConstructedComponents &temp, bool unweighted, int min_value, int max_value){
+        // I am going to add directed edge but fixing there will be no cycles
+        assert(undirected == false);
+        int u, v, w;
+        bool verdict;
+        while (edge > 0){
+            u = rand()%n+1;
+            v = rand()%n+1;
+            vector<int>color;
+            for(int i=0; i<=n; i++) color.push_back(i);
+            for(int i=1; i<=n; i++) color[i] = 0;
+            for(int i=1; i<=n; i++){
+                verdict = dfs(i, temp.graph, color, u, v);
+                if(verdict == true) break;
+            }
+            if(verdict == false) {
+                temp.graph[u].push_back(v);
+                edge -= 1;
+                if(unweighted == false){
+                    w = rand()%(max_value-min_value)+min_value;
+                    temp.weight[u].push_back(w);
+                }
+            }
+
+        }
+
+
     }
     vector<vector<int>> tree_generation(int n, bool undirected, int *edge) {
         vector<vector<int>>graph=this->twoD_vector_init(n);
@@ -225,15 +272,15 @@ struct GraphGenerator{
         for(int i=0; i<component_types.size(); i++){
             ConstructedComponents temp;
             temp.edge = 0;
-            if(component_types[i].type == "tree") {
+            if(component_types[i].type == "tree" || component_types[i].type == "dag") {
                 // this->tree_generation
+                if(component_types[i].type == "dag") assert(undirected == false);
                 temp.graph = this->tree_generation_using_dsu(component_types[i].number_of_nodes, undirected, &temp.edge);
                 if(unweighted == false) {
                     if(i==0) global_min = component_types[i].weight_range.first, global_max = component_types[i].weight_range.second;
                     else global_min = min(global_min, component_types[i].weight_range.first), global_max = max(global_max, component_types[i].weight_range.second);
                     temp.weight = this->bulk_weight_generation(component_types[i].number_of_nodes, temp.edge, temp.graph, component_types[i].weight_range.first, component_types[i].weight_range.second, component_types[i].negative_cycle, undirected);
                 }
-
             }
             else if(component_types[i].type == "cycle"){
                 temp.graph = this->cycle_generation(component_types[i].number_of_nodes, undirected, &temp.edge);
@@ -244,7 +291,13 @@ struct GraphGenerator{
                 }
             }
             if(component_types[i].extra_edge_count > 0) {
-                this->extra_edge_addition(component_types[i].number_of_nodes, undirected, component_types[i].extra_edge_count, temp, unweighted, component_types[i].weight_range.first, component_types[i].weight_range.second);
+                if(component_types[i].type != "dag") {
+                    this->extra_edge_addition(component_types[i].number_of_nodes, undirected, component_types[i].extra_edge_count, temp, unweighted, component_types[i].weight_range.first, component_types[i].weight_range.second);
+
+                }
+                else {
+                    cycle_aware_directed_edge_addition(component_types[i].number_of_nodes, undirected, component_types[i].extra_edge_count, temp, unweighted, component_types[i].weight_range.first, component_types[i].weight_range.second);
+                }
                 temp.edge = temp.edge + component_types[i].extra_edge_count;
             }
             temp.st = total_node_count+1;
@@ -453,24 +506,39 @@ int main(void){
     temp.negative_cycle = false;
     component_types.push_back(temp);*/
 
-    temp.number_of_nodes = 5;
+    temp.number_of_nodes = 7;
     temp.type = "cycle";
     temp.extra_edge_count = 4;
+    temp.weight_range.first = 5;
+    temp.weight_range.second = 13;
+    temp.negative_cycle = false;
+    component_types.push_back(temp);
+
+    /*temp.number_of_nodes = 3;
+    temp.type = "cycle";
+    temp.extra_edge_count = 0;
     temp.weight_range.first = 5;
     temp.weight_range.second = 12;
     temp.negative_cycle = false;
     component_types.push_back(temp);
 
+    temp.number_of_nodes = 3;
+    temp.type = "cycle";
+    temp.extra_edge_count = 0;
+    temp.weight_range.first = 5;
+    temp.weight_range.second = 12;
+    temp.negative_cycle = false;
+    component_types.push_back(temp);*/
+
 
 
     vector<ConnectionBetweenComponents>joining_edges;
-    //joining_edges.push_back({0,1,1});
-    //joining_edges.push_back(300);
-    //joining_edges.push_back(1);
+    //joining_edges.push_back({0,1,2});
+    //joining_edges.push_back({1,2,1});
     //
     // graph_generation(vector<ComponentTypes>component_types, vector<int>joining_edges, bool undirected, bool unweighted)
     // undirected, unweighted
-    bool undirected = false;
+    bool undirected = true;
     bool unweighted = false;
     g.graph_generation(component_types, joining_edges, undirected, unweighted);
     return 0;

@@ -14,7 +14,7 @@ int mcm(vector<pair<int,int>>V, int i, int k, int dp[MAX+1][MAX+1]){
         return dp[i][k];
     }
     int res = MAX_INF;
-    for(int j=i+1; j<k;j++){
+    for(int j=i; j<k;j++){
         res = min(res, mcm(V, i, j, dp) + mcm(V, j+1, k, dp) + (V[i].first * V[j].second * V[k].second));
     }
     dp[i][k] = res;
@@ -44,7 +44,7 @@ void iterative_mcm(vector<pair<int,int>>V, int dp[MAX+1][MAX+1]){
 }
 
 
-void print_mcm(int i, int j, int dp[MAX+1][MAX+1]){
+void print_mcm(int i, int j, int dp[MAX+1][MAX+1], vector<pair<int,int>>V){
     if(i == j) {
         cout<<i<<" ";
         return;
@@ -55,18 +55,18 @@ void print_mcm(int i, int j, int dp[MAX+1][MAX+1]){
     }
     int value = 0;
     int best = -1;
-    for(int k=i+1; k<j; k++){
-        if(dp[i][k] > value) {
-            value = dp[i][k];
-            best = k;
+    for(int k=i; k<j; k++){
+        if(dp[i][j] == (dp[i][k]+dp[k+1][j] + V[i].first * V[k].second * V[j].second)){
+            cout<<"(";
+            print_mcm(i,k, dp, V);
+            cout<<")";
+            cout<<"(";
+            print_mcm(k+1, j, dp, V);
+            cout<<")";
+            break;
         }
     }
-    cout<<"( ";
-    print_mcm(i, best, dp);
-    cout<<" )";
-    cout<<"( ";
-    print_mcm(best+1, j, dp);
-    cout<<" )";
+    return;
 }
 
 vector<pair<int, int>> input(){
@@ -86,12 +86,14 @@ int main(void){
     vector<pair<int, int>>V = input();
     int dp[MAX+1][MAX+1];
     memset(dp, -1, sizeof(dp));
-    cout<<dp[0][2] << dp[0][5]<<endl;
+    //cout<<dp[0][2] << dp[0][5]<<endl;
     int res = mcm(V, 0, V.size()-1, dp);
     cout<<res<<endl;
     // iterative DP
     iterative_mcm(V, dp);
     cout<<dp[0][V.size()-1]<<endl;
-    print_mcm(0, V.size()-1, dp);
+    cout<<"(";
+    print_mcm(0, V.size()-1, dp, V);
+    cout<<")"<<endl;
     return 0;
 }

@@ -6,6 +6,7 @@ using namespace std;
 struct Graph{
     vector<vector<int>>edges;
     vector<vector<int>>weight;
+    vector<vector<int>>real_flag;
     vector<vector<int>>residual_edge;
     int node,edge_count;
     void add_edge_without_weight(int u, int v){
@@ -23,7 +24,9 @@ struct Graph{
         for(int i=0; i<this->edge_count; i++){
             cin>>u>>v>>w;
             this->add_edge_with_weight(u,v,w);
+            this->real_flag[u].push_back(1); // u->v is the real edge to denote that flag
             this->add_edge_with_weight(v,u,0); // change for flow
+            this->real_flag[v].push_back(0); // v->u is not the real edge
             this->residual_edge[u].push_back(this->edges[v].size()-1);
             this->residual_edge[v].push_back(this->edges[u].size()-1);
             //cout<<"u = "<<u<<" "<<this->residual_edge[u][this->residual_edge[u].size()-1]<<endl;
@@ -33,11 +36,13 @@ struct Graph{
     void init(int node, bool unweighted){
         this->edges.clear();
         this->weight.clear();
+        this->real_flag.clear();
         this->residual_edge.clear();
         vector<int>temp;
         for(int i=0; i<=node;i++){
             this->edges.push_back(temp);
             this->weight.push_back(temp);
+            this->real_flag.push_back(temp);
             this->residual_edge.push_back(temp); // storing the residual edge
         }
         return;
@@ -141,6 +146,16 @@ struct MaxFlow{
             cout<<(*g).residual_edge[u][i]<<endl;
         }
     }
+    void find_mincut_edges(Graph *g){
+        for(int i=0; i<(*g).edges.size(); i++){
+            for(int j=0; j<(*g).edges[i].size(); j++){
+                if((*g).weight[i][j] == 0 && (*g).real_flag[i][j] == 1) {
+                    int v = (*g).edges[i][j];
+                    cout<<"min cut edge "<<i<<" "<<v<<endl;
+                }
+            }
+        }
+    }
 };
 
 /*
@@ -162,13 +177,14 @@ struct MaxFlow{
 */
 
 int main(void){
-    freopen("in1.txt", "r", stdin);
+    freopen("in.txt", "r", stdin);
     Graph g;
     g.input(false,false);
     int source,sink;
     cin>>source>>sink;
     MaxFlow m;
     cout<<m.algorithm(&g,source,sink);
+    m.find_mincut_edges(&g);
     return 0;
 
 }
