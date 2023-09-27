@@ -106,9 +106,17 @@ int main(void){
     // it is enough to write in main function once: the seeding
     srand(time(nullptr));
     //string_generator(30);
-    vector<ll> V = integer_generation(1, 1000000000000000, 100000000000000000, true);
-    map<int, bool>canceled;
-    canceled[0]=true;
+    //vector<ll> V = integer_generation(1, 1000000000000000, 100000000000000000, true);
+    //map<int, bool>canceled;
+    //canceled[0]=true;
     //grid_generator(12, 12, 0, 100, canceled, true);
     //integer_generation(100000, 100, 4900, true);
+    int n,k;
+    n=100;
+    k=100;
+    cout<<n<<" "<<k<<endl;
+    for(int i=1; i<=n; i++){
+        vector<ll> V = integer_generation(k, -2, -2, true);
+    }
+    return 0;
 }
