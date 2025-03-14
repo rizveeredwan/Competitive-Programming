@@ -35,7 +35,7 @@ void string_generator(int n){
 }
 
 vector<char> eng_letter_gen(string s){
-    vector<char>opt; 
+    vector<char>opt;
     if(s == "upper" || s == "lower") {
         for(int i=0; i<26; i++){
             if(s == "upper") opt.push_back(i+'A');
@@ -44,28 +44,28 @@ vector<char> eng_letter_gen(string s){
     }
     if(s == "digit"){
         for(int i=0; i<=9; i++){
-            opt.push_back(i+'0'); 
+            opt.push_back(i+'0');
         }
     }
-    return opt; 
+    return opt;
 }
 
 string random_up_low(string s, string cat){
     for(int i=0; i<s.size(); i++){
-        if(cat == "upper" && s[i] >= 'a' && s[i] <= 'z') s[i] = s[i]-'a' + 'A';  
-        if(cat == "lower" && s[i] >= 'A' && s[i] <= 'Z')  s[i] = s[i]-'A' + 'a';  
+        if(cat == "upper" && s[i] >= 'a' && s[i] <= 'z') s[i] = s[i]-'a' + 'A';
+        if(cat == "lower" && s[i] >= 'A' && s[i] <= 'Z')  s[i] = s[i]-'A' + 'a';
     }
-    return s; 
+    return s;
 }
 
 string random_string_gen(vector<char>char_choices, int n) {
-    int idx; 
-    string s = ""; 
+    int idx;
+    string s = "";
     for(int i=0; i<n; i++){
-        idx = rand()%char_choices.size(); 
-        s = s + char_choices[idx]; 
+        idx = rand()%char_choices.size();
+        s = s + char_choices[idx];
     }
-    return s; 
+    return s;
 }
 
 vector<ll> integer_generation(int n, ll min_value, ll max_value, bool repeat) {
@@ -162,7 +162,7 @@ template<typename T> vector<T> shuffling_vector(vector<T>myVector) {
 
     // Shuffle the vector
     std::shuffle(myVector.begin(), myVector.end(), rng);
-    return myVector; 
+    return myVector;
 }
 
 
@@ -189,5 +189,18 @@ int main(void){
     //map<int, bool>canceled;
     //canceled[0]=true;
     //grid_generator(4, 4, 1, 7, canceled);
+    //vector<ll> V = integer_generation(1, 1000000000000000, 100000000000000000, true);
+    //map<int, bool>canceled;
+    //canceled[0]=true;
+    //grid_generator(12, 12, 0, 100, canceled, true);
+    //integer_generation(100000, 100, 4900, true);
+    int n,k;
+    n=100;
+    k=100;
+    cout<<n<<" "<<k<<endl;
+    for(int i=1; i<=n; i++){
+        vector<ll> V = integer_generation(k, -2, -2, true);
+    }
+    return 0;
 }
 */

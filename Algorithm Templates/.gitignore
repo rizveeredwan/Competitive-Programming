@@ -1,2 +1,6 @@
 *.exe
 *.o
+
+random_generator/graph/*.txt
+random_generator/*.exe
+*/*.txt

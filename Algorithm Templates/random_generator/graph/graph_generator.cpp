@@ -269,7 +269,9 @@ struct GraphGenerator{
         int total_edge_count=0;
         int global_min,global_max;
         vector<ConstructedComponents>const_comps; // constructed components
+        //cout<<"HERE"<<endl;
         for(int i=0; i<component_types.size(); i++){
+            //cout<<"type "<<component_types[i].type<<endl;
             ConstructedComponents temp;
             temp.edge = 0;
             if(component_types[i].type == "tree" || component_types[i].type == "dag") {
@@ -283,7 +285,9 @@ struct GraphGenerator{
                 }
             }
             else if(component_types[i].type == "cycle"){
+                //cout<<"DONE 1"<<endl;
                 temp.graph = this->cycle_generation(component_types[i].number_of_nodes, undirected, &temp.edge);
+                //cout<<"DONE"<<endl;
                 if(unweighted == false) {
                     if(i==0) global_min = component_types[i].weight_range.first, global_max = component_types[i].weight_range.second;
                     else global_min = min(global_min, component_types[i].weight_range.first), global_max = max(global_max, component_types[i].weight_range.second);
@@ -417,8 +421,13 @@ struct GraphGenerator{
         // randomization weight
         vector<int>values;
         int diff = max_range-min_range;
+        int val;
         for(int i=0; i<n; i++){
-            values.push_back(rand()%diff + min_range);
+            while (true){
+                val = rand()%diff + min_range;
+                if(val != 0 || val != 6) break;
+            }
+            values.push_back(val);
         }
         sort(values.begin(), values.end());
         if(neg_cycle == true) {
@@ -506,40 +515,28 @@ int main(void){
     temp.negative_cycle = false;
     component_types.push_back(temp);*/
 
-    temp.number_of_nodes = 7;
+    temp.number_of_nodes = 800;
     temp.type = "cycle";
-    temp.extra_edge_count = 4;
-    temp.weight_range.first = 5;
-    temp.weight_range.second = 13;
+    temp.extra_edge_count = 100;
+    temp.weight_range.first = 0;
+    temp.weight_range.second = 10;
     temp.negative_cycle = false;
     component_types.push_back(temp);
 
-    /*temp.number_of_nodes = 3;
-    temp.type = "cycle";
-    temp.extra_edge_count = 0;
-    temp.weight_range.first = 5;
-    temp.weight_range.second = 12;
-    temp.negative_cycle = false;
-    component_types.push_back(temp);
-
-    temp.number_of_nodes = 3;
-    temp.type = "cycle";
-    temp.extra_edge_count = 0;
-    temp.weight_range.first = 5;
-    temp.weight_range.second = 12;
-    temp.negative_cycle = false;
-    component_types.push_back(temp);*/
 
 
 
     vector<ConnectionBetweenComponents>joining_edges;
     //joining_edges.push_back({0,1,2});
+    //joining_edges.push_back({1,2,4});
+    //joining_edges.push_back({2,3,3});
     //joining_edges.push_back({1,2,1});
     //
     // graph_generation(vector<ComponentTypes>component_types, vector<int>joining_edges, bool undirected, bool unweighted)
     // undirected, unweighted
-    bool undirected = true;
-    bool unweighted = false;
+    bool undirected = false;
+    bool unweighted = true;
+
     g.graph_generation(component_types, joining_edges, undirected, unweighted);
     return 0;
 }

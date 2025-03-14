@@ -40,7 +40,7 @@ void print_prefix_array(int pi[], int m){
 }
 
 int main(void){
-    freopen("in1.txt", "r", stdin);
+    freopen("in2.txt", "r", stdin);
     char T[MAX+1], P[MAX+1];
     int pi[MAX+1];
     cin>>T;
