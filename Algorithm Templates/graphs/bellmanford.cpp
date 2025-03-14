@@ -56,6 +56,7 @@ struct BellmanFord
     }
     void Algorithm()
     {
+        cout<<"started "<< n << endl;
         for(int i=0; i<=n; i++)
         {
             dist.push_back(INF);
@@ -65,16 +66,19 @@ struct BellmanFord
         //normal bellmanford
         for(int i=1; i<=n-1; i++)
         {
+            cout<<"i "<<i<< " " << edgeList.size() << endl;
             update=false;
             for(int j=0; j<(int)edgeList.size(); j++)
             {
+                cout<<edgeList[j].v<< " " << edgeList[j].u << " " << edgeList[j].w<<endl;
                 if(dist[edgeList[j].v]>dist[edgeList[j].u]+edgeList[j].w)
                 {
                     dist[edgeList[j].v] = dist[edgeList[j].u]+edgeList[j].w;
-                    //cout<<"u: "<<edgeList[j].u<<" "<<edgeList[j].v<<" "<<dist[edgeList[j].v]<<endl;
+                    cout<<"u: "<<edgeList[j].u<<" "<<edgeList[j].v<<" "<<dist[edgeList[j].v]<<endl;
                     update=true;
                 }
             }
+            cout<<"came here "<<update<<endl;
             if(!update)
                 break;
         }
@@ -103,8 +107,11 @@ struct BellmanFord
             }
         }
         else {
-            if(this->dist[dest] == INF) cout<<"INF"<<endl;
-            else cout<<this->dist[dest]<<endl; // no negative cycle
+            //if(this->dist[dest] == INF) cout<<"INF"<<endl;
+            //else cout<<this->dist[dest]<<endl; // no negative cycle
+            for(int i=0; i<=n; i++){
+                cout<<sr<<" to " << i << " " << dist[i]<<endl;
+            }
         }
         return;
     }
@@ -187,8 +194,8 @@ struct BellmanFord
 
 int main(void)
 {
-    freopen("in6.txt","r",stdin);
-    freopen("out6.txt","w",stdout);
+    freopen("in1.txt","r",stdin);
+    //freopen("out6.txt","w",stdout);
     struct BellmanFord bellmanford;
     //cout<<"Give total nodes: ";
     cin>>bellmanford.n;
@@ -207,7 +214,8 @@ int main(void)
     }
     //cout<<"Provide source node(0 based): ";
     cin>>bellmanford.sr;
-    cin>>bellmanford.dest;
+    cout<<"done"<<endl;
+    //cin>>bellmanford.dest;
     //cout<<endl;
     //cout<<"Node sorting "<<endl;
     bellmanford.EdgeConstructionWithOrdering(graph,bellmanford.sr,bellmanford.n);

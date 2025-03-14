@@ -40,7 +40,7 @@ class LCS:
             self.dp[i][j] = 0
         self.dp[i][j] = res1
         return self.dp[i][j]
-
+    
     def get_path(self, i, j, M, N):
         if i >= len(M) or j >= len(N):
             return ""
@@ -106,18 +106,51 @@ class LCS:
                 arr[key1][key2] = self.dp[key1][key2]
         return arr
 
-    def print_table(self):
-        for key in self.dp:
-            print(self.dp[key])
+    def print_table(self, M, N):
+        for i in range(0, len(M)):
+            _string = ""
+            for j in range(0, len(N)):
+                val = "NONE"
+                if (self.dp.get(i) is not None and self.dp.get(i).get(j) is not None):
+                    val = str(self.dp[i][j])
+                _string = _string + " " + val 
+
+            print(_string)
+        return 
+    
+    def itr_lcs_matching(self, M, N):
+        dp = {}
+        dp[0] = {}
+        dp[0][0] = 0
+        for i in range(0, len(N)):
+            dp[0][i+1] = 0 
+        for i in range(0, len(M)):
+            if dp.get(i+1) is None:
+                dp[i+1]={}
+            dp[i+1][0] = 0 
+        for i in range(0, len(M)):
+            for j in range(0, len(N)):
+                if M[i] == N[j]:
+                    dp[i+1][j+1] = 1+dp[i][j]
+                else:
+                    dp[i+1][j+1] = max(dp[i+1][j], dp[i][j+1]) 
+        print("PRINT")
+        for i in range(0, len(M)+1):
+            temp = ""
+            for j in range(0, len(N)+1):
+                temp = temp + str(dp[i][j])
+            print(temp)
+        
 
 
 if __name__ == '__main__':
     lcs = LCS()
-    M="DAEABFAA"
-    N="ADAEFBAA"
+    M="DABBCCCBA"
+    N="CABCABCACB"
     lcs.begin_matching(M=M, N=N)
-    lcs.return_path(M=M, N=N)
-    lcs.print_table()
-    best = []
-    lcs.small_lcs(i=0, j=0, M=M, N=N, best=best, curr=[])
-    print("".join(i for i in best))
+    lcs.itr_lcs_matching(M=M, N=N)
+    #lcs.return_path(M=M, N=N)
+    #lcs.print_table(M=M, N=N)
+    #best = []
+    #lcs.small_lcs(i=0, j=0, M=M, N=N, best=best, curr=[])
+    #print("".join(i for i in best))

@@ -96,22 +96,27 @@ struct FloydWarshall{
             cout<<"k = "<<k<<endl;
             this->print_table(g);
         }
+        cout<<"printing final table"<<endl;
         this->print_table(g);
     }
 
     void print_table(Graph g){
+        cout<<"distance table"<<endl;
         for(int i=1; i<=g.node; i++){
             for(int j=1; j<=g.node; j++){
                 cout<<this->dist[i][j]<<" ";
             }
             cout<<endl;
         }
+        cout<<"path table"<<endl;
         for(int i=1; i<=g.node; i++){
             for(int j=1; j<=g.node; j++){
+                cout<<this->path[i][j]<<" ";
                 //cout<<"calculation for "<<i <<" "<<j << endl;
                 //this->print_path(i,j);
                 //cout<<endl;
             }
+            cout<<endl;
         }
         return;
     }
@@ -144,17 +149,15 @@ struct FloydWarshall{
 */
 
 /*
-6 10
+5 8
+4 1 -2
+1 3 2
+3 5 0
+2 3 5
+5 2 7
+2 4 8
 1 2 2
-1 5 1
-2 3 3
-2 6 1
-3 4 4
-4 2 3
-4 5 1
-5 3 4
-5 6 2
-6 1 1
+5 4 9
 */
 
 int main(void){

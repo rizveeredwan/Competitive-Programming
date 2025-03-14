@@ -37,7 +37,7 @@ struct Dijkstra{
             }
         }
         for(int i=1;i<=node;i++){
-            cout<<dist[i]<<endl;
+            cout<<i<< " : "<<dist[i]<<endl;
         }
     }
 };
@@ -47,16 +47,17 @@ int main(void){
     freopen("in1.txt","r",stdin);
 
     Dijkstra d;
-    cin>>d.edge;
     cin>>d.node;
+    cin>>d.edge;
     for(int i=0;i<d.edge;i++){
         int a,b,c;
         cin>>a>>b>>c;
+        cout<<a<< " " << b << " " << c << endl;
         d.graph[a].push_back(b);
         d.weight[a].push_back(c);
 
-        d.graph[b].push_back(a);
-        d.weight[b].push_back(c);
+        //d.graph[b].push_back(a);
+        //d.weight[b].push_back(c);
     }
     d.init();
     cin>>d.source;

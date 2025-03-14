@@ -159,32 +159,29 @@ struct MaxFlow{
 };
 
 /*
-7 13
-1 2 30
-1 5 25
-2 4 7
-2 3 6
-3 2 5
-3 6 14
-3 7 10
-4 3 8
-4 6 5
-5 2 8
-5 4 13
-6 5 12
-6 7 12
-1 7
+5 10
+1 2 10
+1 4 7
+1 3 15
+2 3 9
+3 5 10
+3 4 8
+4 3 7
+4 2 6
+2 4 8
+4 5 11
+1 5
 */
 
 int main(void){
-    freopen("in.txt", "r", stdin);
+    freopen("flow_in1.txt", "r", stdin);
     Graph g;
     g.input(false,false);
     int source,sink;
     cin>>source>>sink;
     MaxFlow m;
-    cout<<m.algorithm(&g,source,sink);
-    m.find_mincut_edges(&g);
+    cout<<"total flow "<<m.algorithm(&g,source,sink);
+    //m.find_mincut_edges(&g);
     return 0;
 
 }

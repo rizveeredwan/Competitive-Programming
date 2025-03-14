@@ -107,6 +107,7 @@ vector<int> input(){
     return A;
 }
 
+// 8 2 1 10 9 15 12 16 13
 int main(void){
     //freopen("in.txt", "r", stdin);
     vector<int>A = input();

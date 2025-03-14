@@ -110,7 +110,7 @@ struct MSTPrim {
                 if(this->dist[v] > g.weight[u.node][i] && this->flag[v] == false){
                     this->dist[v] = g.weight[u.node][i];
                     this->_insert(v, this->dist[v]);
-                    cout<<u.node<<" v "<<v<<" "<<this->dist[v]<<endl;
+                    //cout<<u.node<<" v "<<v<<" "<<this->dist[v]<<endl;
                 }
             }
         }
@@ -159,5 +159,8 @@ int main(void){
     g.input(true, false);
     MSTPrim m;
     cout<< m.algorithm(g)<<endl;
+    for(int i=1; i<=g.node; i++){
+        cout<<m.dist[i]<<endl;
+    }
     return 0;
 }
